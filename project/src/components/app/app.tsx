@@ -1,5 +1,5 @@
 import Main from '../../pages/main/main';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, generatePath, Route, Routes} from 'react-router-dom';
 import React from 'react';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
@@ -15,7 +15,7 @@ const App = ({placesFound}: AppProps): JSX.Element => (
     <Routes>
       <Route path={AppRoute.Main} element={<Main placesFound={placesFound} />} />
       <Route path={AppRoute.Login} element={<Login />} />
-      <Route path={AppRoute.Offer} element={<Room />} />
+      <Route path={generatePath(AppRoute.Offer, {id: '1'})} element={<Room />} />
       <Route path="*" element={<Error />} />
     </Routes>
   </BrowserRouter>
