@@ -6,7 +6,7 @@ type PlaceListProperty = {
 }
 
 const PlaceList = ({places}: PlaceListProperty): JSX.Element => {
-  const [currentPlace, setCurrentPlace]: [number, Dispatch<SetStateAction<number>>] = useState(1);
+  const [, setCurrentPlace]: [number, Dispatch<SetStateAction<number>>] = useState(1);
 
   const clickHandler = (id: number): void => {
     setCurrentPlace(id);
