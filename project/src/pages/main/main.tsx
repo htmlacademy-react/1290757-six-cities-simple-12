@@ -1,13 +1,25 @@
-import PlaceCard from '../../components/place-card/place-card';
 import Header from '../../components/header/header';
+import {Offer} from '../../types/types';
+import PlaceList from '../../components/place-list/place-list';
+import {Place} from '../../components/place-card/place-card';
 
 type MainProps = {
-  placesFound: number;
+  offers: Offer[];
 }
 
-const Main = ({placesFound}: MainProps): JSX.Element => (
+const getPlacesData = (offers: Offer[]): Place[] => offers.map((offer: Offer) => ({
+  id: offer.id,
+  isPremium: offer.isPremium,
+  previewImage: offer.previewImage,
+  price: offer.price,
+  rating: ((offer.rating / 5) * 100).toFixed(),
+  title: offer.title,
+  type: offer.type
+}));
+
+const Main = ({offers}: MainProps): JSX.Element => (
   <div className="page page--gray page--main">
-    <Header isAuth isMain />
+    <Header isAuth isMain/>
 
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -51,11 +63,11 @@ const Main = ({placesFound}: MainProps): JSX.Element => (
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{placesFound} places to stay in Amsterdam</b>
+            <b className="places__found">{offers.length} places to stay in Amsterdam</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
-                Popular
+                  Popular
                 <svg className="places__sorting-arrow" width="7" height="4">
                   <use xlinkHref="#icon-arrow-select"></use>
                 </svg>
@@ -67,9 +79,7 @@ const Main = ({placesFound}: MainProps): JSX.Element => (
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              {Array(5).fill(<PlaceCard />)}
-            </div>
+            <PlaceList places={getPlacesData(offers)} />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map"></section>

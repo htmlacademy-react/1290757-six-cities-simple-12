@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
+import {offersMock} from './mocks/offers';
 
 const Settings = {
-  PlacesFound: 299
+  Offers: offersMock
 } as const;
 
 const root = ReactDOM.createRoot(
@@ -12,6 +13,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App placesFound={Settings.PlacesFound} />
+    <App offers={Settings.Offers} />
   </React.StrictMode>,
 );
