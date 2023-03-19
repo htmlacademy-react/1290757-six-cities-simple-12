@@ -39,3 +39,18 @@ type Host = {
   isPro: boolean;
   avatarUrl: string;
 }
+
+export type Point = {
+  title: string;
+  lat: number;
+  lng: number;
+}
+
+export type Points = Point[];
+
+export type MapCity = {
+  title: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+}
