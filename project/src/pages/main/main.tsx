@@ -2,6 +2,10 @@ import Header from '../../components/header/header';
 import {Offer} from '../../types/types';
 import PlaceList from '../../components/place-list/place-list';
 import {Place} from '../../components/place-card/place-card';
+import React from 'react';
+import Map from '../../components/map/map';
+import {CITY} from '../../mocks/city';
+import {POINTS} from '../../mocks/points';
 
 type MainProps = {
   offers: Offer[];
@@ -82,7 +86,7 @@ const Main = ({offers}: MainProps): JSX.Element => (
             <PlaceList places={getPlacesData(offers)} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map city={CITY} points={POINTS} selectedPoint={POINTS[0]} />
           </div>
         </div>
       </div>
