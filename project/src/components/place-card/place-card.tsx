@@ -15,6 +15,7 @@ export type Place = {
 type PlaceCardProperty = {
   place: Place;
   clickHandler: (id: number) => void;
+  type: string;
 }
 
 const GetMotivator = (): JSX.Element => (
@@ -23,11 +24,11 @@ const GetMotivator = (): JSX.Element => (
   </div>
 );
 
-const PlaceCard = ({place, clickHandler}: PlaceCardProperty): JSX.Element => {
+const PlaceCard = ({place, clickHandler, type}: PlaceCardProperty): JSX.Element => {
   const navigate = useNavigate();
 
   return (
-    <article className="cities__card place-card" onClick={() => clickHandler(place.id)}>
+    <article className={`${type}__card place-card`} onClick={() => clickHandler(place.id)}>
       {place.isPremium ? GetMotivator() : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">

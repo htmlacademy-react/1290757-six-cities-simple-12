@@ -1,25 +1,15 @@
 import Header from '../../components/header/header';
 import {Offer} from '../../types/types';
 import PlaceList from '../../components/place-list/place-list';
-import {Place} from '../../components/place-card/place-card';
 import React from 'react';
 import Map from '../../components/map/map';
 import {CITY} from '../../mocks/city';
 import {POINTS} from '../../mocks/points';
+import getPlacesFromOffers from '../../util/util';
 
 type MainProps = {
   offers: Offer[];
 }
-
-const getPlacesData = (offers: Offer[]): Place[] => offers.map((offer: Offer) => ({
-  id: offer.id,
-  isPremium: offer.isPremium,
-  previewImage: offer.previewImage,
-  price: offer.price,
-  rating: ((offer.rating / 5) * 100).toFixed(),
-  title: offer.title,
-  type: offer.type
-}));
 
 const Main = ({offers}: MainProps): JSX.Element => (
   <div className="page page--gray page--main">
@@ -83,10 +73,10 @@ const Main = ({offers}: MainProps): JSX.Element => (
                 <li className="places__option" tabIndex={0}>Top rated first</li>
               </ul>
             </form>
-            <PlaceList places={getPlacesData(offers)} />
+            <PlaceList places={getPlacesFromOffers(offers)} type='cities' />
           </section>
           <div className="cities__right-section">
-            <Map city={CITY} points={POINTS} selectedPoint={POINTS[0]} />
+            <Map city={CITY} points={POINTS} selectedPoint={POINTS[0]} type='cities' />
           </div>
         </div>
       </div>
