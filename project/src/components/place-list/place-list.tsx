@@ -3,9 +3,10 @@ import React, {Dispatch, SetStateAction, useState} from 'react';
 
 type PlaceListProperty = {
   places: Place[];
+  type: string;
 }
 
-const PlaceList = ({places}: PlaceListProperty): JSX.Element => {
+const PlaceList = ({places, type}: PlaceListProperty): JSX.Element => {
   const [, setCurrentPlace]: [number, Dispatch<SetStateAction<number>>] = useState(1);
 
   const clickHandler = (id: number): void => {
@@ -13,9 +14,9 @@ const PlaceList = ({places}: PlaceListProperty): JSX.Element => {
   };
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={`${type === 'cities' ? 'cities__places-list tabs__content' : 'near-places__list'} places__list`}>
       {places.map((place: Place): JSX.Element => (
-        <PlaceCard key={place.id} place={place} clickHandler={clickHandler} />
+        <PlaceCard key={place.id} place={place} clickHandler={clickHandler} type={type} />
       ))}
     </div>
   );

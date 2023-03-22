@@ -54,3 +54,18 @@ export type MapCity = {
   lng: number;
   zoom: number;
 }
+
+export type Comment = {
+  id: number;
+  user: User;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+type User = {
+  id: number;
+  isPro: boolean;
+  name: string;
+  avatarUrl: string;
+}
