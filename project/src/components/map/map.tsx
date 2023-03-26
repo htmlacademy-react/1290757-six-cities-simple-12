@@ -4,6 +4,8 @@ import {Icon, Marker} from 'leaflet';
 import {MapCity, Point, Points} from '../../types/types';
 import 'leaflet/dist/leaflet.css';
 
+// TODO: Не реализовано подсвечивание маркера при наведении на размещение
+
 type MapProps = {
   city: MapCity;
   points: Points;

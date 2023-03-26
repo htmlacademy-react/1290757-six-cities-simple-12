@@ -1,8 +1,8 @@
 import {createReducer, Draft, PayloadAction} from '@reduxjs/toolkit';
-import {updateCity, updateOffers} from './action';
-import {Offer} from '../types/types';
+import {sortOffers, updateCity, updateOffers} from './action';
+import {Offer, SortingTypes} from '../types/types';
 import {CITY_LIST} from '../mocks/city';
-import {offersMock} from '../mocks/offers';
+import {getCityOffers} from '../util/util';
 
 export type State = {
   city: string;
@@ -20,7 +20,22 @@ const reducer = createReducer(initialState, (builder) => {
       state.city = action.payload;
     })
     .addCase(updateOffers, (state: Draft<State>) => {
-      state.offers = offersMock.filter((offer: Offer) => offer.city.name === state.city);
+      state.offers = getCityOffers(state.city);
+    })
+    .addCase(sortOffers, (state: Draft<State>, action: PayloadAction<string>) => {
+      switch (action.payload) {
+        case SortingTypes.LowToHigh:
+          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => value.price - comparedValue.price);
+          break;
+        case SortingTypes.HighToLow:
+          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => comparedValue.price - value.price);
+          break;
+        case SortingTypes.TopRates:
+          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => comparedValue.rating - value.rating);
+          break;
+        default:
+          state.offers = getCityOffers(state.city);
+      }
     });
 });
 

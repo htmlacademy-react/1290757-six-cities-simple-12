@@ -1,6 +1,14 @@
 import React, {ChangeEvent, Dispatch, Fragment, SetStateAction, useState} from 'react';
 
-const rating: string[] = ['perfect', 'good', 'not bad', 'badly', 'terribly'];
+enum RatingType {
+  Perfect = 'perfect',
+  Good = 'good',
+  NotBad = 'not bad',
+  Badly = 'badly',
+  Terribly = 'terribly',
+}
+
+const RATINGS: RatingType[] = [RatingType.Perfect, RatingType.Good, RatingType.NotBad, RatingType.Badly, RatingType.Terribly];
 
 const ReviewsForm = () => {
   const [formData, setFormData]: [[number, string], Dispatch<SetStateAction<[number, string]>>] = useState([0, '']);
@@ -10,8 +18,8 @@ const ReviewsForm = () => {
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {rating.map((currentRating: string, count: number): JSX.Element => {
-          const value: number = rating.length - count;
+        {RATINGS.map((currentRating: string, count: number): JSX.Element => {
+          const value: number = RATINGS.length - count;
 
           return (
             <Fragment key={Math.random() * Number.MAX_VALUE}>

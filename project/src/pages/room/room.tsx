@@ -7,7 +7,7 @@ import {CITY} from '../../mocks/city';
 import {POINTS} from '../../mocks/points';
 import Map from '../../components/map/map';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import getPlacesFromOffers from '../../util/util';
+import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
 
 type RoomProps = {
