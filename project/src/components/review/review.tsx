@@ -3,6 +3,7 @@ import {Comment} from '../../types/types';
 type ReviewProperty = {
   review: Comment;
 }
+
 const Review = ({review}: ReviewProperty): JSX.Element => {
   const starRating: string = ((review.rating / 5) * 100).toFixed();
 

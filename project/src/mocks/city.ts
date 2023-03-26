@@ -6,3 +6,5 @@ export const CITY: MapCity = {
   lng: 4.897976,
   zoom: 13,
 };
+
+export const CITY_LIST: string[] = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
