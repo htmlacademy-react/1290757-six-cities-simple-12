@@ -1,17 +1,18 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useAppDispatch} from '../../hooks/util';
 import {sortOffers} from '../../store/action';
+import {SortingTypes} from '../../types/types';
 
 type SortingState = {
   isOpen: boolean;
   sortingType: string;
 }
 
-const SORTING_TYPES: string[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+const SORTING_TYPES: SortingTypes[] = [SortingTypes.Popular, SortingTypes.LowToHigh, SortingTypes.HighToLow, SortingTypes.TopRates];
 
 const sortingState: SortingState = {
   isOpen: false,
-  sortingType: SORTING_TYPES[0]
+  sortingType: SortingTypes.Popular
 };
 
 const Sorting = (): JSX.Element => {

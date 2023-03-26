@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 import Map from '../../components/map/map';
 import {CITY} from '../../mocks/city';
 import {POINTS} from '../../mocks/points';
-import getPlacesFromOffers from '../../util/util';
+import {getPlacesFromOffers} from '../../util/util';
 import LocationList from '../../components/location-list/location-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {State} from '../../store/reducer';
