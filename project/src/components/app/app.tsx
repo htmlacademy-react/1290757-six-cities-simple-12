@@ -14,7 +14,7 @@ type AppProps = {
 const App = ({offers, reviews}: AppProps): JSX.Element => (
   <BrowserRouter>
     <Routes>
-      <Route path={AppRoute.Main} element={<Main offers={offers} />} />
+      <Route path={AppRoute.Main} element={<Main />} />
       <Route path={AppRoute.Login} element={<Login />} />
       <Route path={generatePath(AppRoute.Offer, {id: '1'})} element={<Room offers={offers} reviews={reviews} />} />
       <Route path="*" element={<Error />} />
