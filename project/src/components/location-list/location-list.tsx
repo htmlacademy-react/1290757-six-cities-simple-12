@@ -1,11 +1,10 @@
 import React, {SyntheticEvent} from 'react';
 import {CITY_LIST} from '../../mocks/city';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
-import {State} from '../../types/state';
 import {updateCity, updateOffers} from '../../store/action';
-
+import {State} from '../../store/reducer';
 const LocationList = (): JSX.Element => {
-  const currentCity = useAppSelector((state: State) => state.city);
+  const currentCity: string = useAppSelector((state: State) => state.city);
   const dispatch = useAppDispatch();
 
   const getLocationElement = (city: string): JSX.Element => (

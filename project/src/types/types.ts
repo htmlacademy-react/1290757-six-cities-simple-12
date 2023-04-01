@@ -1,9 +1,3 @@
-export enum AppRoute {
-  Main = '/',
-  Login = '/login',
-  Offer = '/offer/:id'
-}
-
 export type Offer = {
   city: City;
   previewImage: string;
@@ -68,11 +62,4 @@ type User = {
   isPro: boolean;
   name: string;
   avatarUrl: string;
-}
-
-export enum SortingTypes {
-  Popular = 'Popular',
-  LowToHigh = 'Price: low to high',
-  HighToLow = 'Price: high to low',
-  TopRates = 'Top rated first'
 }
