@@ -9,9 +9,10 @@ import Map from '../../components/map/map';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
+import {State} from '../../store/reducer';
+import {useAppSelector} from '../../hooks/util';
 
 type RoomProps = {
-  offers: Offer[];
   reviews: Comment[];
 }
 
@@ -21,7 +22,8 @@ const getUserStatus = (): JSX.Element => (
   </span>
 );
 
-const Room = ({offers, reviews}: RoomProps): JSX.Element => {
+const Room = ({reviews}: RoomProps): JSX.Element => {
+  const {offers}: State = useAppSelector((state: State) => state);
   const { id } = useParams();
   const currentOfferId = id ? Number(id) : 0;
   const [room, setRoom]: [Offer, Dispatch<SetStateAction<Offer>>] = useState(offers[currentOfferId]);
@@ -29,7 +31,7 @@ const Room = ({offers, reviews}: RoomProps): JSX.Element => {
   const otherPlaceOffers: Offer[] = [...offers.slice(0, currentOfferId), ...offers.slice(currentOfferId + 1)];
 
   useEffect(() => {
-    setRoom(offers.find((offer: Offer) => offer.id === currentOfferId) ?? offers[0]);
+    setRoom(offers.find((offer: Offer): boolean => offer.id === currentOfferId) ?? offers[0]);
   }, []);
 
   return (

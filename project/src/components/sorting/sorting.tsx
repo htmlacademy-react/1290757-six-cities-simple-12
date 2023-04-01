@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useAppDispatch} from '../../hooks/util';
 import {sortOffers} from '../../store/action';
-import {SortingTypes} from '../../types/types';
+import {SortingTypes} from '../../const/const';
 
 type SortingState = {
   isOpen: boolean;

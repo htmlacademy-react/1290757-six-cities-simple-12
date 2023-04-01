@@ -12,7 +12,7 @@ import {updateOffers} from '../../store/action';
 import Sorting from '../../components/sorting/sorting';
 
 const Main = (): JSX.Element => {
-  const {city, offers}: State = useAppSelector((state) => state);
+  const {city, offers}: State = useAppSelector((state: State) => state);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

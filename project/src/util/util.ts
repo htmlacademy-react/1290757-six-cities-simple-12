@@ -1,6 +1,6 @@
 import {Offer} from '../types/types';
 import {Place} from '../components/place-card/place-card';
-import {offersMock} from '../mocks/offers';
+import {State} from '../store/reducer';
 
 export const getPlacesFromOffers = (offers: Offer[]): Place[] => offers.map((offer: Offer) => ({
   id: offer.id,
@@ -12,4 +12,6 @@ export const getPlacesFromOffers = (offers: Offer[]): Place[] => offers.map((off
   type: offer.type
 }));
 
-export const getCityOffers = (city: string): Offer[] => offersMock.filter((offer: Offer) => offer.city.name === city);
+export const getCityOffers = (state: State): Offer[] =>
+  state.offers.filter((offer: Offer): boolean => offer.city.name === state.city);
+

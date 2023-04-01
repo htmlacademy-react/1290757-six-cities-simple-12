@@ -1,5 +1,5 @@
 import {generatePath, useNavigate} from 'react-router-dom';
-import {AppRoute} from '../../types/types';
+import {AppRoute} from '../../const/const';
 import {SyntheticEvent} from 'react';
 
 export type Place = {
