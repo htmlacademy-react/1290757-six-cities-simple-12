@@ -36,7 +36,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
 
   return (
     <div className="page">
-      <Header isAuth isMain={false} />
+      <Header isMain={false} />
 
       <main className="page__main page__main--property">
         <section className="property">

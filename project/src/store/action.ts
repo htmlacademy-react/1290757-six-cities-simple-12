@@ -7,3 +7,4 @@ export const sortOffers: ActionCreatorWithPayload<string> = createAction<string>
 export const loadOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('offers/load');
 export const setError = createAction<string | null>('app/setError');
 export const setOffersLoadingStatus = createAction<boolean>('offers/loadingStatus');
+export const requireAuthorization = createAction<boolean>('user/auth');
