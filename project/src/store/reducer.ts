@@ -2,7 +2,6 @@ import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/to
 import {
   loadOffers,
   requireAuthorization,
-  setError,
   setOffersLoadingStatus,
   sortOffers,
   updateCity,
@@ -17,7 +16,6 @@ import {SortingTypes} from '../const/const';
 export type State = {
   city: string;
   offers: Offer[];
-  error: string | null;
   isOffersLoading: boolean;
   isUserAuth: boolean;
 };
@@ -25,7 +23,6 @@ export type State = {
 const initialState: State = {
   city: CITY_LIST[0],
   offers: [],
-  error: null,
   isOffersLoading: false,
   isUserAuth: false
 };
@@ -55,9 +52,6 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     })
     .addCase(loadOffers, (state: State, action: PayloadAction<Offer[]>): void => {
       state.offers = action.payload;
-    })
-    .addCase(setError, (state: State, action: PayloadAction<string | null>): void => {
-      state.error = action.payload;
     })
     .addCase(setOffersLoadingStatus, (state: State, action: PayloadAction<boolean>): void => {
       state.isOffersLoading = action.payload;

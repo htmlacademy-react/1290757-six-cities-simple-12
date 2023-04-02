@@ -3,13 +3,10 @@ import {FormEvent, useRef} from 'react';
 import {AuthData} from '../../types/types';
 import {loginAction} from '../../store/api-action';
 import {store} from '../../store';
-import {useNavigate} from 'react-router-dom';
-import {AppRoute} from '../../const/const';
 
 const Login = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const navigate = useNavigate();
 
   const onSubmit = (authData: AuthData) => {
     store.dispatch(loginAction(authData));
@@ -23,7 +20,6 @@ const Login = (): JSX.Element => {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
-      navigate(AppRoute.Main);
     }
   };
 
