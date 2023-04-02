@@ -1,5 +1,13 @@
 import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/toolkit';
-import {loadOffers, setError, setOffersLoadingStatus, sortOffers, updateCity, updateOffers} from './action';
+import {
+  loadOffers,
+  requireAuthorization,
+  setError,
+  setOffersLoadingStatus,
+  sortOffers,
+  updateCity,
+  updateOffers
+} from './action';
 import {Offer} from '../types/types';
 import {CITY_LIST} from '../mocks/city';
 import {getCityOffers} from '../util/util';
@@ -11,13 +19,15 @@ export type State = {
   offers: Offer[];
   error: string | null;
   isOffersLoading: boolean;
+  isUserAuth: boolean;
 };
 
 const initialState: State = {
   city: CITY_LIST[0],
   offers: [],
   error: null,
-  isOffersLoading: false
+  isOffersLoading: false,
+  isUserAuth: false
 };
 
 const reducer: ReducerWithInitialState<State> = createReducer(initialState, (builder: ActionReducerMapBuilder<State>): void => {
@@ -51,6 +61,9 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     })
     .addCase(setOffersLoadingStatus, (state: State, action: PayloadAction<boolean>): void => {
       state.isOffersLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state: State, action: PayloadAction<boolean>): void => {
+      state.isUserAuth = action.payload;
     });
 });
 

@@ -5,8 +5,9 @@ import {reviewsMock} from './mocks/reviews';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import ErrorMessage from './components/error-message/error-message';
-import {fetchOffersAction} from './store/api-action';
+import {checkAuthAction, fetchOffersAction} from './store/api-action';
 
+store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
 
 const Settings = {

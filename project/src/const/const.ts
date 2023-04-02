@@ -13,6 +13,7 @@ export enum SortingTypes {
 
 export enum APIRoute {
   Offer = '/hotels',
+  Login = '/login',
   Comment = '/comments',
 }
 

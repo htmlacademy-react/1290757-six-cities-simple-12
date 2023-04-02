@@ -1,6 +1,15 @@
-import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {getToken} from './token';
 import {processErrorHandle} from './process-error-handle';
+import {StatusCodes} from 'http-status-codes';
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true
+};
+
+const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
 
 const BACKEND_URL: string = 'https://12.react.pages.academy/six-cities-simple' as const;
 const REQUEST_TIMEOUT: number = 5000 as const;
@@ -26,7 +35,7 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<{error: string}>): void => {
-      if (error.response) {
+      if (error.response && shouldDisplayError(error.response)) {
         processErrorHandle(error.response.data.error);
       }
 

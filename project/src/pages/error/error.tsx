@@ -2,7 +2,7 @@ import Header from '../../components/header/header';
 
 const Error = (): JSX.Element => (
   <div className="page">
-    <Header isAuth={false} isMain={false} />
+    <Header isMain={false} />
 
     <main className="page__error">
       <div className="container">
