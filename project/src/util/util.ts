@@ -14,4 +14,3 @@ export const getPlacesFromOffers = (offers: Offer[]): Place[] => offers.map((off
 
 export const getCityOffers = (state: State): Offer[] =>
   state.offers.filter((offer: Offer): boolean => offer.city.name === state.city);
-

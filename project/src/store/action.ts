@@ -3,7 +3,7 @@ import {Offer} from '../types/types';
 import {AppRoute} from '../const/const';
 
 export const updateCity: ActionCreatorWithPayload<string> = createAction<string>('city/update');
-export const updateOffers: ActionCreatorWithPayload<void> = createAction('offers/update');
+export const getOffers: ActionCreatorWithPayload<void> = createAction('offers/get');
 export const sortOffers: ActionCreatorWithPayload<string> = createAction<string>('offers/sort');
 export const loadOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('offers/load');
 export const setOffersLoadingStatus = createAction<boolean>('offers/loadingStatus');

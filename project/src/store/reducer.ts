@@ -5,7 +5,7 @@ import {
   setOffersLoadingStatus,
   sortOffers,
   updateCity,
-  updateOffers
+  getOffers
 } from './action';
 import {Offer} from '../types/types';
 import {CITY_LIST} from '../mocks/city';
@@ -32,7 +32,7 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     .addCase(updateCity, (state: State, action: PayloadAction<string>): void => {
       state.city = action.payload;
     })
-    .addCase(updateOffers, (state: State): void => {
+    .addCase(getOffers, (state: State): void => {
       state.offers = getCityOffers(state);
     })
     .addCase(sortOffers, (state: State, action: PayloadAction<string>): void => {

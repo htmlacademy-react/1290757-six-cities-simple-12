@@ -22,6 +22,12 @@ const getUserStatus = (): JSX.Element => (
   </span>
 );
 
+const getPremiumMotivator = (): JSX.Element => (
+  <div className="property__mark">
+    <span>Premium</span>
+  </div>
+);
+
 const Room = ({reviews}: RoomProps): JSX.Element => {
   const {offers}: State = useAppSelector((state: State) => state);
   const { id } = useParams();
@@ -51,9 +57,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {room.isPremium ? getPremiumMotivator() : ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {room.title}

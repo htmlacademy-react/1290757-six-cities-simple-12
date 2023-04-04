@@ -8,7 +8,7 @@ import {getPlacesFromOffers} from '../../util/util';
 import LocationList from '../../components/location-list/location-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {State} from '../../store/reducer';
-import {updateOffers} from '../../store/action';
+import {getOffers} from '../../store/action';
 import Sorting from '../../components/sorting/sorting';
 
 const Main = (): JSX.Element => {
@@ -16,7 +16,7 @@ const Main = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(updateOffers());
+    dispatch(getOffers());
   }, []);
 
   return (
