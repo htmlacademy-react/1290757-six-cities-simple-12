@@ -1,8 +1,9 @@
 import React, {SyntheticEvent} from 'react';
 import {CITY_LIST} from '../../mocks/city';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
-import {updateCity, getOffers} from '../../store/action';
+import {updateCity} from '../../store/action';
 import {State} from '../../store/reducer';
+
 const LocationList = (): JSX.Element => {
   const currentCity: string = useAppSelector((state: State) => state.city);
   const dispatch = useAppDispatch();
@@ -15,7 +16,6 @@ const LocationList = (): JSX.Element => {
         onClick={(event: SyntheticEvent) => {
           event.preventDefault();
           dispatch(updateCity(city));
-          dispatch(getOffers());
         }}
       >
         <span>{city}</span>

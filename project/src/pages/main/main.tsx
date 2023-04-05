@@ -1,23 +1,43 @@
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
-import React, {useEffect} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import Map from '../../components/map/map';
 import {CITY} from '../../mocks/city';
 import {POINTS} from '../../mocks/points';
 import {getPlacesFromOffers} from '../../util/util';
 import LocationList from '../../components/location-list/location-list';
-import {useAppDispatch, useAppSelector} from '../../hooks/util';
+import {useAppSelector} from '../../hooks/util';
 import {State} from '../../store/reducer';
-import {getOffers} from '../../store/action';
 import Sorting from '../../components/sorting/sorting';
+import {Offer} from "../../types/types";
+import {SortingType} from "../../const/const";
+
+const getSortedOffer = (offers: Offer[], sortingType: SortingType): Offer[] => {
+  switch (sortingType) {
+    case SortingType.LowToHigh:
+      return offers.sort((value: Offer, comparedValue: Offer) => value.price - comparedValue.price);
+    case SortingType.HighToLow:
+      return offers.sort((value: Offer, comparedValue: Offer) => comparedValue.price - value.price);
+    case SortingType.TopRates:
+      return offers.sort((value: Offer, comparedValue: Offer) => comparedValue.rating - value.rating);
+    default:
+      return offers;
+  }
+}
+
+const getOffersByCity = (offers: Offer[], city: string): Offer[] =>
+  offers.filter((offer: Offer): boolean => offer.city.name === city);
 
 const Main = (): JSX.Element => {
-  const {city, offers}: State = useAppSelector((state: State) => state);
-  const dispatch = useAppDispatch();
+  const {city, offers, sortingType}: State = useAppSelector((state: State) => state);
+  const [sortedOffers, setSortedOffers]: [Offer[], Dispatch<SetStateAction<Offer[]>>] = useState(getSortedOffer([...offers], sortingType));
 
   useEffect(() => {
-    dispatch(getOffers());
-  }, []);
+    const cityOffers: Offer[] = getOffersByCity([...offers], city);
+    const sortedOffers: Offer[] = getSortedOffer(cityOffers, sortingType);
+
+    setSortedOffers(sortedOffers);
+  }, [city, sortingType]);
 
   return (
     <div className="page page--gray page--main">
@@ -34,9 +54,9 @@ const Main = (): JSX.Element => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {city}</b>
+              <b className="places__found">{sortedOffers.length} places to stay in {city}</b>
               <Sorting />
-              <PlaceList places={getPlacesFromOffers(offers)} type='cities' />
+              <PlaceList places={getPlacesFromOffers(sortedOffers)} type='cities' />
             </section>
             <div className="cities__right-section">
               <Map city={CITY} points={POINTS} selectedPoint={POINTS[0]} type='cities' />

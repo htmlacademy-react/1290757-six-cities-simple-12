@@ -4,7 +4,7 @@ export enum AppRoute {
   Offer = '/offer/:id'
 }
 
-export enum SortingTypes {
+export enum SortingType {
   Popular = 'Popular',
   LowToHigh = 'Price: low to high',
   HighToLow = 'Price: high to low',

@@ -1,21 +1,14 @@
 import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/toolkit';
-import {
-  loadOffers,
-  requireAuthorization,
-  setOffersLoadingStatus,
-  sortOffers,
-  updateCity,
-  getOffers
-} from './action';
+import {loadOffers, requireAuthorization, setOffersLoadingStatus, updateCity, setSorting} from './action';
 import {Offer} from '../types/types';
 import {CITY_LIST} from '../mocks/city';
-import {getCityOffers} from '../util/util';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
-import {SortingTypes} from '../const/const';
+import {SortingType} from '../const/const';
 
 export type State = {
   city: string;
   offers: Offer[];
+  sortingType: SortingType
   isOffersLoading: boolean;
   isUserAuth: boolean;
 };
@@ -23,6 +16,7 @@ export type State = {
 const initialState: State = {
   city: CITY_LIST[0],
   offers: [],
+  sortingType: SortingType.Popular,
   isOffersLoading: false,
   isUserAuth: false
 };
@@ -32,23 +26,8 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     .addCase(updateCity, (state: State, action: PayloadAction<string>): void => {
       state.city = action.payload;
     })
-    .addCase(getOffers, (state: State): void => {
-      state.offers = getCityOffers(state);
-    })
-    .addCase(sortOffers, (state: State, action: PayloadAction<string>): void => {
-      switch (action.payload) {
-        case SortingTypes.LowToHigh:
-          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => value.price - comparedValue.price);
-          break;
-        case SortingTypes.HighToLow:
-          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => comparedValue.price - value.price);
-          break;
-        case SortingTypes.TopRates:
-          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => comparedValue.rating - value.rating);
-          break;
-        default:
-          state.offers = getCityOffers(state);
-      }
+    .addCase(setSorting, (state: State, action: PayloadAction<SortingType>): void => {
+      state.sortingType = action.payload;
     })
     .addCase(loadOffers, (state: State, action: PayloadAction<Offer[]>): void => {
       state.offers = action.payload;
