@@ -1,29 +1,47 @@
 import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/toolkit';
-import {loadOffers, requireAuthorization, setOffersLoadingStatus, updateCity, setSorting} from './action';
-import {Offer} from '../types/types';
-import {CITY_LIST} from '../mocks/city';
+import {
+  loadOffers,
+  requireAuthorization, setMapCity,
+  setOffersLoadingStatus,
+  setSorting,
+  updateCity, updateMainPageOffers
+} from './action';
+import {City, Offer} from '../types/types';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
-import {SortingType} from '../const/const';
+import {CityName, SortingType} from '../const/const';
+
+const defaultCity: City = {
+  name: CityName.Paris,
+  location: {
+    "latitude": 48.85661,
+    "longitude": 2.351499,
+    "zoom": 13
+  }
+}
 
 export type State = {
-  city: string;
+  city: CityName;
   offers: Offer[];
   sortingType: SortingType
   isOffersLoading: boolean;
   isUserAuth: boolean;
+  mainPageOffers: Offer[];
+  mapCity: City;
 };
 
 const initialState: State = {
-  city: CITY_LIST[0],
+  city: CityName.Paris,
   offers: [],
   sortingType: SortingType.Popular,
   isOffersLoading: false,
-  isUserAuth: false
+  isUserAuth: false,
+  mainPageOffers: [],
+  mapCity: defaultCity
 };
 
 const reducer: ReducerWithInitialState<State> = createReducer(initialState, (builder: ActionReducerMapBuilder<State>): void => {
   builder
-    .addCase(updateCity, (state: State, action: PayloadAction<string>): void => {
+    .addCase(updateCity, (state: State, action: PayloadAction<CityName>): void => {
       state.city = action.payload;
     })
     .addCase(setSorting, (state: State, action: PayloadAction<SortingType>): void => {
@@ -37,6 +55,12 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     })
     .addCase(requireAuthorization, (state: State, action: PayloadAction<boolean>): void => {
       state.isUserAuth = action.payload;
+    })
+    .addCase(updateMainPageOffers, (state: State, action: PayloadAction<Offer[]>): void => {
+      state.mainPageOffers = action.payload;
+    })
+    .addCase(setMapCity, (state: State, action: PayloadAction<City>): void => {
+      state.mapCity = action.payload;
     });
 });
 

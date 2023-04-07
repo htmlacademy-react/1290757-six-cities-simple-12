@@ -3,8 +3,6 @@ import {Comment, Offer} from '../../types/types';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
 import {useParams} from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import {CITY} from '../../mocks/city';
-import {POINTS} from '../../mocks/points';
 import Map from '../../components/map/map';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {getPlacesFromOffers} from '../../util/util';
@@ -31,7 +29,7 @@ const getPremiumMotivator = (): JSX.Element => (
 const Room = ({reviews}: RoomProps): JSX.Element => {
   const {offers}: State = useAppSelector((state: State) => state);
   const { id } = useParams();
-  const currentOfferId = id ? Number(id) : 0;
+  const currentOfferId: number = id ? Number(id) : 0;
   const [room, setRoom]: [Offer, Dispatch<SetStateAction<Offer>>] = useState(offers[currentOfferId]);
   const starRating: string = ((room.rating / 5) * 100).toFixed();
   const otherPlaceOffers: Offer[] = [...offers.slice(0, currentOfferId), ...offers.slice(currentOfferId + 1)];
@@ -123,7 +121,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
               </section>
             </div>
           </div>
-          <Map city={CITY} points={POINTS} selectedPoint={POINTS[0]} type='property' />
+          <Map type='property' />
         </section>
         <div className="container">
           <section className="near-places places">

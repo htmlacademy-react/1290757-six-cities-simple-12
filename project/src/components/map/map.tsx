@@ -1,17 +1,18 @@
-import {useEffect, useRef} from 'react';
+import {Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
 import useMap from '../../hooks/useMap';
 import {Icon, Marker} from 'leaflet';
-import {MapCity, Point, Points} from '../../types/types';
+import {Offer, Point} from '../../types/types';
 import 'leaflet/dist/leaflet.css';
+import {State} from "../../store/reducer";
+import {useAppSelector} from "../../hooks/util";
 
 // TODO: Не реализовано подсвечивание маркера при наведении на размещение
 
 type MapProps = {
-  city: MapCity;
-  points: Points;
-  selectedPoint: Point;
   type: string;
 };
+
+const MAP_HEIGHT: string = '500px';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -25,13 +26,29 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-const Map = ({city, points, selectedPoint, type}: MapProps): JSX.Element => {
+const getMapPoints = (offers: Offer[]): Point[] =>
+  offers.map((offer: Offer) => {
+    return {
+      title: offer.title,
+      lat: offer.location.latitude,
+      lng: offer.location.longitude,
+      zoom: offer.location.zoom
+    }
+  })
+
+const Map = ({type}: MapProps): JSX.Element => {
+  const {city, mainPageOffers, mapCity}: State = useAppSelector((state: State) => state);
+  const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mainPageOffers));
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef);
+
+  useEffect(() => {
+    setLocations(getMapPoints(mainPageOffers));
+  }, [mapCity]);
 
   useEffect(() => {
     if (map) {
-      points.forEach((point: Point) => {
+      locations.forEach((point: Point) => {
         const marker = new Marker({
           lat: point.lat,
           lng: point.lng
@@ -39,16 +56,16 @@ const Map = ({city, points, selectedPoint, type}: MapProps): JSX.Element => {
 
         marker
           .setIcon(
-            point.title === selectedPoint.title
+            point.title === city
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, locations]);
 
-  return <section className={`${type}__map map`} style={{height: '500px'}} ref={mapRef}></section>;
+  return <section className={`${type}__map map`} style={{height: MAP_HEIGHT}} ref={mapRef}></section>;
 };
 
 export default Map;

@@ -14,7 +14,6 @@ const Sorting = (): JSX.Element => {
   const getFilterElement = (sortingType: SortingType, isActive: boolean): JSX.Element => (
     <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={(): void => {
       setSelectorState(false);
-      console.log(sortingType);
       dispatch(setSorting(sortingType))
     }}>{sortingType}</li>
   );

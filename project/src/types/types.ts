@@ -16,7 +16,7 @@ export type Offer = {
   id: number;
 }
 
-type City = {
+export type City = {
   name: string;
   location: Location;
 }
@@ -35,14 +35,6 @@ type Host = {
 }
 
 export type Point = {
-  title: string;
-  lat: number;
-  lng: number;
-}
-
-export type Points = Point[];
-
-export type MapCity = {
   title: string;
   lat: number;
   lng: number;

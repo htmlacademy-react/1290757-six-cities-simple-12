@@ -1,14 +1,15 @@
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
 import {Map, TileLayer} from 'leaflet';
-import {MapCity} from '../types/types';
+import {State} from "../store/reducer";
+import {useAppSelector} from "./util";
 
 const URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
 function useMap(
-  mapRef: MutableRefObject<HTMLElement | null>,
-  city: MapCity
+  mapRef: MutableRefObject<HTMLElement | null>
 ): Map | null {
+  const {mapCity}: State = useAppSelector((state: State) => state);
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef(false);
 
@@ -23,10 +24,10 @@ function useMap(
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: city.lat,
-          lng: city.lng
+          lat: mapCity.location.latitude,
+          lng: mapCity.location.longitude
         },
-        zoom: city.zoom
+        zoom: mapCity.location.zoom
       });
 
       instance.addLayer(layer);
@@ -34,7 +35,13 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, map, city]);
+  }, [mapRef, map]);
+
+  useEffect(() => {
+    if (map) {
+      map.setView([mapCity.location.latitude, mapCity.location.longitude], mapCity.location.zoom);
+    }
+  }, [mapCity])
 
   return map;
 }
