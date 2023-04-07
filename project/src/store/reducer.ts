@@ -64,7 +64,7 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     .addCase(setMapCity, (state: State, action: PayloadAction<City>): void => {
       state.mapCity = action.payload;
     })
-    .addCase(setHoveredOffer, (state: State, action: PayloadAction<Coords>): void => {
+    .addCase(setHoveredOffer, (state: State, action: PayloadAction<Coords | null>): void => {
       state.hoveredOffer = action.payload;
     });
 });

@@ -10,4 +10,4 @@ export const requireAuthorization: ActionCreatorWithPayload<boolean> = createAct
 export const redirectToRoute: ActionCreatorWithPayload<AppRoute> = createAction<AppRoute>('app/redirectToRoute');
 export const updateMainPageOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('map/updateMainPageOffers');
 export const setMapCity: ActionCreatorWithPayload<City> = createAction<City>('map/setCity');
-export const setHoveredOffer: ActionCreatorWithPayload<Coords> = createAction<Coords>('offers/setSelectedOffer');
+export const setHoveredOffer: ActionCreatorWithPayload<Coords | null> = createAction<Coords | null>('offers/setSelectedOffer');

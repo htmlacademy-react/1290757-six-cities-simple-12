@@ -30,17 +30,22 @@ const GetMotivator = (): JSX.Element => (
 const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
+  const coords: Coords = {latitude: place.latitude, longitude: place.longitude};
 
   const onClickHandler = () => {
     navigate(generatePath(AppRoute.Offer, {id: place.id.toString()}));
   }
 
-  const onMouseOverHandler = (Coords: Coords): void => {
-    dispatch(setHoveredOffer(Coords))
+  const onMouseOverHandler = (): void => {
+    dispatch(setHoveredOffer(coords))
+  }
+
+  const onMouseLeaveHandler = (): void => {
+    dispatch(setHoveredOffer(null))
   }
 
   return (
-    <article className={`${type}__card place-card`} onMouseOver={() => onMouseOverHandler({latitude: place.latitude, longitude: place.longitude})}>
+    <article className={`${type}__card place-card`} onMouseOver={onMouseOverHandler} onMouseLeave={onMouseLeaveHandler}>
       {place.isPremium ? GetMotivator() : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
