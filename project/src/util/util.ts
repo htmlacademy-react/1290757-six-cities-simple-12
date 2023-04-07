@@ -9,6 +9,8 @@ export const getPlacesFromOffers = (offers: Offer[]): Place[] => offers.map((off
     price: offer.price,
     rating: ((offer.rating / 5) * 100).toFixed(),
     title: offer.title,
-    type: offer.type
+    type: offer.type,
+    latitude: offer.location.latitude,
+    longitude: offer.location.longitude
   })
 });

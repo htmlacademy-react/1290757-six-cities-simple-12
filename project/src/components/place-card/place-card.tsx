@@ -1,6 +1,8 @@
-import {generatePath, useNavigate} from 'react-router-dom';
+import {generatePath, NavigateFunction, useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
-import {SyntheticEvent} from 'react';
+import {setHoveredOffer} from "../../store/action";
+import {useAppDispatch} from "../../hooks/util";
+import {Coords} from "../../types/types";
 
 export type Place = {
   id: number;
@@ -10,11 +12,12 @@ export type Place = {
   rating: string;
   title: string;
   type: string;
+  latitude: number;
+  longitude: number;
 }
 
 type PlaceCardProperty = {
   place: Place;
-  clickHandler: (id: number) => void;
   type: string;
 }
 
@@ -24,11 +27,20 @@ const GetMotivator = (): JSX.Element => (
   </div>
 );
 
-const PlaceCard = ({place, clickHandler, type}: PlaceCardProperty): JSX.Element => {
-  const navigate = useNavigate();
+const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
+
+  const onClickHandler = () => {
+    navigate(generatePath(AppRoute.Offer, {id: place.id.toString()}));
+  }
+
+  const onMouseOverHandler = (Coords: Coords): void => {
+    dispatch(setHoveredOffer(Coords))
+  }
 
   return (
-    <article className={`${type}__card place-card`} onClick={() => clickHandler(place.id)}>
+    <article className={`${type}__card place-card`} onMouseOver={() => onMouseOverHandler({latitude: place.latitude, longitude: place.longitude})}>
       {place.isPremium ? GetMotivator() : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
@@ -50,12 +62,7 @@ const PlaceCard = ({place, clickHandler, type}: PlaceCardProperty): JSX.Element 
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#" onClick={(event: SyntheticEvent) => {
-            event.preventDefault();
-            navigate(generatePath(AppRoute.Offer, {id: place.id.toString()}));
-          }}
-          >{place.title}
-          </a>
+          <a href="#" onClick={onClickHandler}>{place.title}</a>
         </h2>
         <p className="place-card__type">{place.type}</p>
       </div>

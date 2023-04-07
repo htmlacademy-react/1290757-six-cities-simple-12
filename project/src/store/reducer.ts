@@ -1,12 +1,12 @@
 import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/toolkit';
 import {
   loadOffers,
-  requireAuthorization, setMapCity,
+  requireAuthorization, setHoveredOffer, setMapCity,
   setOffersLoadingStatus,
   setSorting,
   updateCity, updateMainPageOffers
 } from './action';
-import {City, Offer} from '../types/types';
+import {City, Coords, Offer} from '../types/types';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
 import {CityName, SortingType} from '../const/const';
 
@@ -27,6 +27,7 @@ export type State = {
   isUserAuth: boolean;
   mainPageOffers: Offer[];
   mapCity: City;
+  hoveredOffer: Coords | null;
 };
 
 const initialState: State = {
@@ -36,7 +37,8 @@ const initialState: State = {
   isOffersLoading: false,
   isUserAuth: false,
   mainPageOffers: [],
-  mapCity: defaultCity
+  mapCity: defaultCity,
+  hoveredOffer: null
 };
 
 const reducer: ReducerWithInitialState<State> = createReducer(initialState, (builder: ActionReducerMapBuilder<State>): void => {
@@ -61,6 +63,9 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     })
     .addCase(setMapCity, (state: State, action: PayloadAction<City>): void => {
       state.mapCity = action.payload;
+    })
+    .addCase(setHoveredOffer, (state: State, action: PayloadAction<Coords>): void => {
+      state.hoveredOffer = action.payload;
     });
 });
 

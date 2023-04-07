@@ -1,5 +1,5 @@
 import {ActionCreatorWithPayload, createAction} from '@reduxjs/toolkit';
-import {City, Offer} from '../types/types';
+import {City, Coords, Offer} from '../types/types';
 import {AppRoute, CityName, SortingType} from '../const/const';
 
 export const updateCity: ActionCreatorWithPayload<CityName> = createAction<CityName>('city/update');
@@ -10,3 +10,4 @@ export const requireAuthorization: ActionCreatorWithPayload<boolean> = createAct
 export const redirectToRoute: ActionCreatorWithPayload<AppRoute> = createAction<AppRoute>('app/redirectToRoute');
 export const updateMainPageOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('map/updateMainPageOffers');
 export const setMapCity: ActionCreatorWithPayload<City> = createAction<City>('map/setCity');
+export const setHoveredOffer: ActionCreatorWithPayload<Coords> = createAction<Coords>('offers/setSelectedOffer');

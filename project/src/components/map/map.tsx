@@ -6,8 +6,6 @@ import 'leaflet/dist/leaflet.css';
 import {State} from "../../store/reducer";
 import {useAppSelector} from "../../hooks/util";
 
-// TODO: Не реализовано подсвечивание маркера при наведении на размещение
-
 type MapProps = {
   type: string;
 };
@@ -37,7 +35,7 @@ const getMapPoints = (offers: Offer[]): Point[] =>
   })
 
 const Map = ({type}: MapProps): JSX.Element => {
-  const {city, mainPageOffers, mapCity}: State = useAppSelector((state: State) => state);
+  const {mainPageOffers, mapCity, hoveredOffer}: State = useAppSelector((state: State) => state);
   const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mainPageOffers));
   const mapRef = useRef(null);
   const map = useMap(mapRef);
@@ -56,14 +54,14 @@ const Map = ({type}: MapProps): JSX.Element => {
 
         marker
           .setIcon(
-            point.title === city
+            point.lat === hoveredOffer?.latitude && point.lng === hoveredOffer.longitude
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(map);
       });
     }
-  }, [map, locations]);
+  }, [map, locations, hoveredOffer]);
 
   return <section className={`${type}__map map`} style={{height: MAP_HEIGHT}} ref={mapRef}></section>;
 };
