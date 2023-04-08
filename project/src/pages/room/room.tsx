@@ -1,7 +1,6 @@
 import Header from '../../components/header/header';
 import {Comment, Offer} from '../../types/types';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
-import {useParams} from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
@@ -28,7 +27,7 @@ const getPremiumMotivator = (): JSX.Element => (
 
 const Room = ({reviews}: RoomProps): JSX.Element => {
   const {offers}: State = useAppSelector((state: State) => state);
-  const { id } = useParams();
+  const id: string = location.pathname.split('/')[2];
   const currentOfferId: number = id ? Number(id) : 0;
   const [room, setRoom]: [Offer, Dispatch<SetStateAction<Offer>>] = useState(offers[currentOfferId]);
   const starRating: string = ((room.rating / 5) * 100).toFixed();
@@ -46,11 +45,11 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {room.images.map((img: string, count: number): JSX.Element => (
+              {room.images.map((img: string, count: number): JSX.Element | string => count < 6 ? (
                 <div key={Math.random() * Number.MAX_VALUE} className="property__image-wrapper">
                   <img className="property__image" src={img} alt={room.type} />
                 </div>
-              ))}
+              ) : '')}
             </div>
           </div>
           <div className="property__container container">

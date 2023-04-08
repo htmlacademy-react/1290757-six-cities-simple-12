@@ -1,5 +1,5 @@
 import Main from '../../pages/main/main';
-import {generatePath, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import React from 'react';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
@@ -30,7 +30,7 @@ const App = ({reviews}: AppProps): JSX.Element => {
       <Routes>
         <Route path={AppRoute.Main} element={<Main/>}/>
         <Route path={AppRoute.Login} element={<Login/>}/>
-        <Route path={generatePath(AppRoute.Offer, {id: '1'})} element={<Room reviews={reviews}/>}/>
+        <Route path={AppRoute.Offer} element={<Room reviews={reviews}/>}/>
         <Route path="*" element={<Error/>}/>
       </Routes>
     </HistoryRouter>

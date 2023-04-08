@@ -1,4 +1,4 @@
-import {generatePath, NavigateFunction, useNavigate} from 'react-router-dom';
+import {generatePath} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
 import {setHoveredOffer} from "../../store/action";
 import {useAppDispatch} from "../../hooks/util";
@@ -29,11 +29,10 @@ const GetMotivator = (): JSX.Element => (
 
 const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
   const dispatch = useAppDispatch();
-  const navigate: NavigateFunction = useNavigate();
   const coords: Coords = {latitude: place.latitude, longitude: place.longitude};
 
   const onClickHandler = () => {
-    navigate(generatePath(AppRoute.Offer, {id: place.id.toString()}));
+    location.replace(generatePath(AppRoute.Offer, {id: place.id.toString()}));
   }
 
   const onMouseOverHandler = (): void => {
