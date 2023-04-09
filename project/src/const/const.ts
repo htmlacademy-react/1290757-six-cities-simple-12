@@ -1,7 +1,7 @@
 export enum AppRoute {
   Main = '/',
   Login = '/login',
-  Offer = '/offer/:id'
+  Offer = '/offer/:id',
 }
 
 export enum SortingType {
@@ -12,9 +12,11 @@ export enum SortingType {
 }
 
 export enum APIRoute {
-  Offer = '/hotels',
+  Offers = '/hotels',
+  Offer = '/hotels/:id',
+  Nearby = '/hotels/:id/nearby',
   Login = '/login',
-  Comment = '/comments',
+  Comments = '/comments/:id',
 }
 
 export enum CityName {

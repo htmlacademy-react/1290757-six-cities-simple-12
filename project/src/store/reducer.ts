@@ -1,12 +1,14 @@
 import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/toolkit';
 import {
-  loadOffers,
+  loadComments,
+  loadNearbyOffers,
+  loadOffers, loadOffer,
   requireAuthorization, setHoveredOffer, setMapCity,
   setOffersLoadingStatus,
   setSorting,
   updateCity, updateMainPageOffers
 } from './action';
-import {City, Coords, Offer} from '../types/types';
+import {City, Comment, Coords, Offer} from '../types/types';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
 import {CityName, SortingType} from '../const/const';
 
@@ -28,6 +30,9 @@ export type State = {
   mainPageOffers: Offer[];
   mapCity: City;
   hoveredOffer: Coords | null;
+  detailedOffer: Offer | null;
+  nearbyOffers: Offer[];
+  comments: Comment[];
 };
 
 const initialState: State = {
@@ -38,7 +43,10 @@ const initialState: State = {
   isUserAuth: false,
   mainPageOffers: [],
   mapCity: defaultCity,
-  hoveredOffer: null
+  hoveredOffer: null,
+  detailedOffer: null,
+  nearbyOffers: [],
+  comments: []
 };
 
 const reducer: ReducerWithInitialState<State> = createReducer(initialState, (builder: ActionReducerMapBuilder<State>): void => {
@@ -51,6 +59,15 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     })
     .addCase(loadOffers, (state: State, action: PayloadAction<Offer[]>): void => {
       state.offers = action.payload;
+    })
+    .addCase(loadOffer, (state: State, action: PayloadAction<Offer>): void => {
+      state.detailedOffer = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state: State, action: PayloadAction<Offer[]>): void => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadComments, (state: State, action: PayloadAction<Comment[]>): void => {
+      state.comments = action.payload;
     })
     .addCase(setOffersLoadingStatus, (state: State, action: PayloadAction<boolean>): void => {
       state.isOffersLoading = action.payload;

@@ -1,11 +1,20 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../types/state';
 import {AxiosInstance} from 'axios';
-import {loadOffers, redirectToRoute, requireAuthorization, setOffersLoadingStatus} from './action';
-import {AuthData, Offer, UserData} from '../types/types';
+import {
+  loadComments,
+  loadNearbyOffers,
+  loadOffers,
+  loadOffer,
+  redirectToRoute,
+  requireAuthorization,
+  setOffersLoadingStatus
+} from './action';
+import {AuthData, Comment, Offer, UserData} from '../types/types';
 import {APIRoute, AppRoute} from '../const/const';
 import {State} from './reducer';
 import {saveToken} from '../services/token';
+import {generatePath} from "react-router-dom";
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -15,9 +24,47 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   'data/fetchOffers',
   async (_arg, {dispatch , extra: api}): Promise<void> => {
     dispatch(setOffersLoadingStatus(true));
-    const {data} = await api.get<Offer[]>(APIRoute.Offer);
+    const {data} = await api.get<Offer[]>(APIRoute.Offers);
     dispatch(setOffersLoadingStatus(false));
     dispatch(loadOffers(data));
+  }
+);
+
+export const fetchOfferAction = createAsyncThunk<void, { id: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (_arg: {id: string}, {dispatch , extra: api}): Promise<void> => {
+    dispatch(setOffersLoadingStatus(true));
+    const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: _arg.id}));
+    dispatch(setOffersLoadingStatus(false));
+    dispatch(loadOffer(data));
+  }
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<void, { id: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearbyOffers',
+  async (_arg: {id: string}, {dispatch , extra: api}): Promise<void> => {
+    const {data} = await api.get<Offer[]>(generatePath(APIRoute.Nearby, {id: _arg.id}));
+    dispatch(loadNearbyOffers(data));
+  }
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, { id: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchComments',
+  async (_arg: {id: string}, {dispatch , extra: api}): Promise<void> => {
+    const {data} = await api.get<Comment[]>(generatePath(APIRoute.Comments, {id: _arg.id}));
+    dispatch(loadComments(data));
   }
 );
 

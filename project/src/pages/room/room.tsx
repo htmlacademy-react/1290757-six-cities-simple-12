@@ -1,17 +1,19 @@
 import Header from '../../components/header/header';
-import {Comment, Offer} from '../../types/types';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
-import ReviewsList from '../../components/reviews-list/reviews-list';
+import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React from 'react';
 import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
 import {State} from '../../store/reducer';
 import {useAppSelector} from '../../hooks/util';
+import {store} from "../../store";
+import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from "../../store/api-action";
 
-type RoomProps = {
-  reviews: Comment[];
-}
+const id: string = location.pathname.split('/')[2];
+store.dispatch(fetchOfferAction({id: id}));
+store.dispatch(fetchNearbyOffersAction({id: id}));
+store.dispatch(fetchCommentsAction({id: id}));
 
 const getUserStatus = (): JSX.Element => (
   <span className="property__user-status">
@@ -25,17 +27,9 @@ const getPremiumMotivator = (): JSX.Element => (
   </div>
 );
 
-const Room = ({reviews}: RoomProps): JSX.Element => {
-  const {offers}: State = useAppSelector((state: State) => state);
-  const id: string = location.pathname.split('/')[2];
-  const currentOfferId: number = id ? Number(id) : 0;
-  const [room, setRoom]: [Offer, Dispatch<SetStateAction<Offer>>] = useState(offers[currentOfferId]);
-  const starRating: string = ((room.rating / 5) * 100).toFixed();
-  const otherPlaceOffers: Offer[] = [...offers.slice(0, currentOfferId), ...offers.slice(currentOfferId + 1)];
-
-  useEffect(() => {
-    setRoom(offers.find((offer: Offer): boolean => offer.id === currentOfferId) ?? offers[0]);
-  }, []);
+const Room = (): JSX.Element => {
+  const {detailedOffer, nearbyOffers}: State = useAppSelector((state: State) => state);
+  const starRating: string = detailedOffer ? ((detailedOffer.rating / 5) * 100).toFixed() : '';
 
   return (
     <div className="page">
@@ -45,19 +39,19 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {room.images.map((img: string, count: number): JSX.Element | string => count < 6 ? (
+              {detailedOffer?.images.map((img: string, count: number): JSX.Element | string => count < 6 ? (
                 <div key={Math.random() * Number.MAX_VALUE} className="property__image-wrapper">
-                  <img className="property__image" src={img} alt={room.type} />
+                  <img className="property__image" src={img} alt={detailedOffer.type} />
                 </div>
               ) : '')}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {room.isPremium ? getPremiumMotivator() : ''}
+              {detailedOffer?.isPremium ? getPremiumMotivator() : ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {room.title}
+                  {detailedOffer?.title}
                 </h1>
               </div>
               <div className="property__rating rating">
@@ -65,7 +59,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                   <span style={{width: `${starRating}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{room.rating}</span>
+                <span className="property__rating-value rating__value">{detailedOffer?.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
@@ -79,13 +73,13 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{room.price}</b>
+                <b className="property__price-value">&euro;{detailedOffer?.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {room.goods.map((good: string): JSX.Element => (
+                  {detailedOffer?.goods.map((good: string): JSX.Element => (
                     <li key={Math.random() * Number.MAX_VALUE} className="property__inside-item">
                       {good}
                     </li>
@@ -96,12 +90,12 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={room.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={detailedOffer?.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {room.host.name}
+                    {detailedOffer?.host.name}
                   </span>
-                  {room.host.isPro ? getUserStatus() : ''}
+                  {detailedOffer?.host.isPro ? getUserStatus() : ''}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
@@ -115,7 +109,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsList reviews={reviews}/>
+                <CommentsList />
                 <ReviewsForm />
               </section>
             </div>
@@ -125,7 +119,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <PlaceList places={getPlacesFromOffers(otherPlaceOffers)} type="near-places" />
+            <PlaceList places={getPlacesFromOffers(nearbyOffers)} type="near-places" />
           </section>
         </div>
       </main>
