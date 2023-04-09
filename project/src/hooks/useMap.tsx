@@ -1,7 +1,7 @@
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
 import {Map, TileLayer} from 'leaflet';
-import {State} from "../store/reducer";
-import {useAppSelector} from "./util";
+import {State} from '../store/reducer';
+import {useAppSelector} from './util';
 
 const URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
@@ -41,7 +41,7 @@ function useMap(
     if (map) {
       map.setView([mapCity.location.latitude, mapCity.location.longitude], mapCity.location.zoom);
     }
-  }, [mapCity])
+  }, [mapCity]);
 
   return map;
 }

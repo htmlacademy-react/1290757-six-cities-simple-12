@@ -1,8 +1,8 @@
 import {generatePath} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
-import {setHoveredOffer} from "../../store/action";
-import {useAppDispatch} from "../../hooks/util";
-import {Coords} from "../../types/types";
+import {setHoveredOffer} from '../../store/action';
+import {useAppDispatch} from '../../hooks/util';
+import {Coords} from '../../types/types';
 
 export type Place = {
   id: number;
@@ -33,15 +33,15 @@ const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
 
   const onClickHandler = () => {
     location.replace(generatePath(AppRoute.Offer, {id: place.id.toString()}));
-  }
+  };
 
   const onMouseOverHandler = (): void => {
-    dispatch(setHoveredOffer(coords))
-  }
+    dispatch(setHoveredOffer(coords));
+  };
 
   const onMouseLeaveHandler = (): void => {
-    dispatch(setHoveredOffer(null))
-  }
+    dispatch(setHoveredOffer(null));
+  };
 
   return (
     <article className={`${type}__card place-card`} onMouseOver={onMouseOverHandler} onMouseLeave={onMouseLeaveHandler}>

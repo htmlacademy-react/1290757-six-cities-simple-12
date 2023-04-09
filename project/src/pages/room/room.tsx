@@ -7,11 +7,11 @@ import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
 import {State} from '../../store/reducer';
 import {useAppSelector} from '../../hooks/util';
-import {store} from "../../store";
-import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from "../../store/api-action";
+import {store} from '../../store';
+import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
 
 const id: string = location.pathname.split('/')[2];
-store.dispatch(fetchOfferAction({id: id}));
+store.dispatch(fetchOfferAction({id: (`${id}00`)}));
 store.dispatch(fetchNearbyOffersAction({id: id}));
 store.dispatch(fetchCommentsAction({id: id}));
 

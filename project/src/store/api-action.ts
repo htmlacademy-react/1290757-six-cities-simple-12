@@ -14,7 +14,7 @@ import {AuthData, Comment, Offer, UserData} from '../types/types';
 import {APIRoute, AppRoute} from '../const/const';
 import {State} from './reducer';
 import {saveToken} from '../services/token';
-import {generatePath} from "react-router-dom";
+import {generatePath} from 'react-router-dom';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;

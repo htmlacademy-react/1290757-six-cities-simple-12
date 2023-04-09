@@ -1,8 +1,8 @@
 import {Comment} from '../../types/types';
 import CommentItem from '../comment-item/comment-item';
 import React from 'react';
-import {State} from "../../store/reducer";
-import {useAppSelector} from "../../hooks/util";
+import {State} from '../../store/reducer';
+import {useAppSelector} from '../../hooks/util';
 
 const CommentsList = (): JSX.Element => {
   const {comments}: State = useAppSelector((state: State) => state);
@@ -16,7 +16,7 @@ const CommentsList = (): JSX.Element => {
         ))}
       </ul>
     </>
-  )
+  );
 };
 
 export default CommentsList;

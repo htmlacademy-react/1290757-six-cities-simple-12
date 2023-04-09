@@ -7,9 +7,9 @@ import LocationList from '../../components/location-list/location-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {State} from '../../store/reducer';
 import Sorting from '../../components/sorting/sorting';
-import {Offer} from "../../types/types";
-import {CityName, SortingType} from "../../const/const";
-import {setMapCity, updateMainPageOffers} from "../../store/action";
+import {Offer} from '../../types/types';
+import {CityName, SortingType} from '../../const/const';
+import {setMapCity, updateMainPageOffers} from '../../store/action';
 
 const getSortedOffer = (offers: Offer[], sortingType: SortingType): Offer[] => {
   switch (sortingType) {
@@ -22,7 +22,7 @@ const getSortedOffer = (offers: Offer[], sortingType: SortingType): Offer[] => {
     default:
       return offers;
   }
-}
+};
 
 const getOffersByCity = (offers: Offer[], city: CityName): Offer[] =>
   offers.filter((offer: Offer): boolean => offer.city.name === city);

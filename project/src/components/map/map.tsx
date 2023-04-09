@@ -3,14 +3,14 @@ import useMap from '../../hooks/useMap';
 import {Icon, Marker} from 'leaflet';
 import {Offer, Point} from '../../types/types';
 import 'leaflet/dist/leaflet.css';
-import {State} from "../../store/reducer";
-import {useAppSelector} from "../../hooks/util";
+import {State} from '../../store/reducer';
+import {useAppSelector} from '../../hooks/util';
 
 type MapProps = {
   type: string;
 };
 
-const MAP_HEIGHT: string = '500px';
+const MAP_HEIGHT = '500px';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -25,14 +25,12 @@ const currentCustomIcon = new Icon({
 });
 
 const getMapPoints = (offers: Offer[]): Point[] =>
-  offers.map((offer: Offer) => {
-    return {
-      title: offer.title,
-      lat: offer.location.latitude,
-      lng: offer.location.longitude,
-      zoom: offer.location.zoom
-    }
-  })
+  offers.map((offer: Offer) => ({
+    title: offer.title,
+    lat: offer.location.latitude,
+    lng: offer.location.longitude,
+    zoom: offer.location.zoom
+  }));
 
 const Map = ({type}: MapProps): JSX.Element => {
   const {mainPageOffers, mapCity, hoveredOffer}: State = useAppSelector((state: State) => state);

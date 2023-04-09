@@ -15,16 +15,16 @@ import {CityName, SortingType} from '../const/const';
 const defaultCity: City = {
   name: CityName.Paris,
   location: {
-    "latitude": 48.85661,
-    "longitude": 2.351499,
-    "zoom": 13
+    'latitude': 48.85661,
+    'longitude': 2.351499,
+    'zoom': 13
   }
-}
+};
 
 export type State = {
   city: CityName;
   offers: Offer[];
-  sortingType: SortingType
+  sortingType: SortingType;
   isOffersLoading: boolean;
   isUserAuth: boolean;
   mainPageOffers: Offer[];
