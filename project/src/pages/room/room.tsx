@@ -2,16 +2,18 @@ import Header from '../../components/header/header';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
 import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
 import {State} from '../../store/reducer';
-import {useAppSelector} from '../../hooks/util';
+import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {store} from '../../store';
 import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
+import {Coords, Offer} from '../../types/types';
+import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
 
 const id: string = location.pathname.split('/')[2];
-store.dispatch(fetchOfferAction({id: (`${id}00`)}));
+store.dispatch(fetchOfferAction({id: id}));
 store.dispatch(fetchNearbyOffersAction({id: id}));
 store.dispatch(fetchCommentsAction({id: id}));
 
@@ -28,8 +30,26 @@ const getPremiumMotivator = (): JSX.Element => (
 );
 
 const Room = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const {detailedOffer, nearbyOffers}: State = useAppSelector((state: State) => state);
   const starRating: string = detailedOffer ? ((detailedOffer.rating / 5) * 100).toFixed() : '';
+
+  useEffect(() => {
+    const mapOffers: Offer[] = detailedOffer ? [...nearbyOffers, detailedOffer] : nearbyOffers;
+
+    dispatch(setMapOffers(mapOffers));
+    dispatch(setMapCity(mapOffers[0]?.city));
+
+    if (detailedOffer) {
+      const coords: Coords = {latitude: detailedOffer?.location.latitude, longitude: detailedOffer?.location.longitude};
+
+      dispatch(setActiveOffer(coords));
+
+      return () => {
+        dispatch(setActiveOffer(null));
+      };
+    }
+  }, [detailedOffer, nearbyOffers]);
 
   return (
     <div className="page">

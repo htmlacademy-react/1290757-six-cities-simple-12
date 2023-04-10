@@ -41,7 +41,7 @@ function useMap(
     if (map) {
       map.setView([mapCity.location.latitude, mapCity.location.longitude], mapCity.location.zoom);
     }
-  }, [mapCity]);
+  }, [mapCity, map]);
 
   return map;
 }

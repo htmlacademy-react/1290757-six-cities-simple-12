@@ -2,6 +2,7 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Offer = '/offer/:id',
+  Error = '/error',
 }
 
 export enum SortingType {

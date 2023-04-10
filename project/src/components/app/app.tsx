@@ -26,7 +26,7 @@ const App = (): JSX.Element => {
         <Route path={AppRoute.Main} element={<Main />}/>
         <Route path={AppRoute.Login} element={<Login />}/>
         <Route path={AppRoute.Offer} element={<Room />}/>
-        <Route path="*" element={<Error/>}/>
+        <Route path="*" element={<Error />}/>
       </Routes>
     </HistoryRouter>
   );

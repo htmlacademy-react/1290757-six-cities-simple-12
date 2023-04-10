@@ -33,14 +33,14 @@ const getMapPoints = (offers: Offer[]): Point[] =>
   }));
 
 const Map = ({type}: MapProps): JSX.Element => {
-  const {mainPageOffers, mapCity, hoveredOffer}: State = useAppSelector((state: State) => state);
-  const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mainPageOffers));
+  const {mapOffers, activeOffer}: State = useAppSelector((state: State) => state);
+  const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mapOffers));
   const mapRef = useRef(null);
   const map = useMap(mapRef);
 
   useEffect(() => {
-    setLocations(getMapPoints(mainPageOffers));
-  }, [mapCity]);
+    setLocations(getMapPoints(mapOffers));
+  }, [mapOffers]);
 
   useEffect(() => {
     if (map) {
@@ -52,14 +52,14 @@ const Map = ({type}: MapProps): JSX.Element => {
 
         marker
           .setIcon(
-            point.lat === hoveredOffer?.latitude && point.lng === hoveredOffer.longitude
+            point.lat === activeOffer?.latitude && point.lng === activeOffer.longitude
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(map);
       });
     }
-  }, [map, locations, hoveredOffer]);
+  }, [map, locations, activeOffer]);
 
   return <section className={`${type}__map map`} style={{height: MAP_HEIGHT}} ref={mapRef}></section>;
 };

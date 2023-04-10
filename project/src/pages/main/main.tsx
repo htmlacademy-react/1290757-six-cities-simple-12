@@ -9,7 +9,7 @@ import {State} from '../../store/reducer';
 import Sorting from '../../components/sorting/sorting';
 import {Offer} from '../../types/types';
 import {CityName, SortingType} from '../../const/const';
-import {setMapCity, updateMainPageOffers} from '../../store/action';
+import {setMapCity, setMapOffers} from '../../store/action';
 
 const getSortedOffer = (offers: Offer[], sortingType: SortingType): Offer[] => {
   switch (sortingType) {
@@ -29,13 +29,13 @@ const getOffersByCity = (offers: Offer[], city: CityName): Offer[] =>
 
 const Main = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const {city, offers, sortingType, mainPageOffers}: State = useAppSelector((state: State) => state);
+  const {city, offers, sortingType, mapOffers}: State = useAppSelector((state: State) => state);
 
   useEffect(() => {
     const cityOffers: Offer[] = getOffersByCity([...offers], city);
     const sortedOffers: Offer[] = getSortedOffer(cityOffers, sortingType);
 
-    dispatch(updateMainPageOffers(sortedOffers));
+    dispatch(setMapOffers(sortedOffers));
     dispatch(setMapCity(sortedOffers[0]?.city));
   }, [city, sortingType]);
 
@@ -54,9 +54,9 @@ const Main = (): JSX.Element => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{mainPageOffers.length} places to stay in {city}</b>
+              <b className="places__found">{mapOffers.length} places to stay in {city}</b>
               <Sorting />
-              <PlaceList places={getPlacesFromOffers(mainPageOffers)} type='cities' />
+              <PlaceList places={getPlacesFromOffers(mapOffers)} type='cities' />
             </section>
             <div className="cities__right-section">
               <Map type='cities' />
