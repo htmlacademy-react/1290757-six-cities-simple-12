@@ -6,7 +6,7 @@ import {
   requireAuthorization, setActiveOffer, setMapCity,
   setOffersLoadingStatus,
   setSorting,
-  updateCity, setMapOffers
+  updateCity, setMapOffers, setCommentLoadingStatus
 } from './action';
 import {City, Comment, Coords, Offer} from '../types/types';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
@@ -33,6 +33,7 @@ export type State = {
   detailedOffer: Offer | null;
   nearbyOffers: Offer[];
   comments: Comment[];
+  isReviewSending: boolean;
 };
 
 const initialState: State = {
@@ -46,7 +47,8 @@ const initialState: State = {
   activeOffer: null,
   detailedOffer: null,
   nearbyOffers: [],
-  comments: []
+  comments: [],
+  isReviewSending: false
 };
 
 const reducer: ReducerWithInitialState<State> = createReducer(initialState, (builder: ActionReducerMapBuilder<State>): void => {
@@ -83,6 +85,9 @@ const reducer: ReducerWithInitialState<State> = createReducer(initialState, (bui
     })
     .addCase(setActiveOffer, (state: State, action: PayloadAction<Coords | null>): void => {
       state.activeOffer = action.payload;
+    })
+    .addCase(setCommentLoadingStatus, (state: State, action: PayloadAction<boolean>): void => {
+      state.isReviewSending = action.payload;
     });
 });
 

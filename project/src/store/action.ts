@@ -14,3 +14,4 @@ export const redirectToRoute: ActionCreatorWithPayload<AppRoute> = createAction<
 export const setMapOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('map/setMapOffers');
 export const setMapCity: ActionCreatorWithPayload<City> = createAction<City>('map/setCity');
 export const setActiveOffer: ActionCreatorWithPayload<Coords | null> = createAction<Coords | null>('offers/setActiveOffer');
+export const setCommentLoadingStatus: ActionCreatorWithPayload<boolean> = createAction<boolean>('comments/loadingStatus');

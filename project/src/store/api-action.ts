@@ -8,13 +8,15 @@ import {
   loadOffer,
   redirectToRoute,
   requireAuthorization,
-  setOffersLoadingStatus
+  setOffersLoadingStatus,
+  setCommentLoadingStatus
 } from './action';
-import {AuthData, Comment, Offer, UserData} from '../types/types';
+import {AuthData, Comment, Offer, Review, UserData} from '../types/types';
 import {APIRoute, AppRoute} from '../const/const';
 import {State} from './reducer';
 import {saveToken} from '../services/token';
 import {generatePath} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -95,3 +97,22 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     dispatch(redirectToRoute(AppRoute.Main));
   },
 );
+
+export const addComment = createAsyncThunk<void, {review: Review; id: string}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postComment',
+  async (_arg: {review: Review; id: string}, {dispatch , extra: api}): Promise<any> => {
+    dispatch(setCommentLoadingStatus(true));
+    try {
+      return await api.post<Review>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
+    } catch (err) {
+      toast.error('Error, can\'t save review, please, try again');
+    } finally {
+      dispatch(setCommentLoadingStatus(false));
+    }
+  },
+);
+

@@ -7,7 +7,6 @@ import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
 import {State} from '../../store/reducer';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
-import {store} from '../../store';
 import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
 import {Coords, Offer} from '../../types/types';
 import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
@@ -33,9 +32,9 @@ const Room = (): JSX.Element => {
   const id: string = location.pathname.split('/')[2];
 
   const getPageData = (): void => {
-    store.dispatch(fetchOfferAction({id: id}));
-    store.dispatch(fetchNearbyOffersAction({id: id}));
-    store.dispatch(fetchCommentsAction({id: id}));
+    dispatch(fetchOfferAction({id: id}));
+    dispatch(fetchNearbyOffersAction({id: id}));
+    dispatch(fetchCommentsAction({id: id}));
   };
 
   useEffect( (): void => {
