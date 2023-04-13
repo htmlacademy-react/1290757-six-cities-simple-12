@@ -11,11 +11,7 @@ import {store} from '../../store';
 import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
 import {Coords, Offer} from '../../types/types';
 import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
-
-const id: string = location.pathname.split('/')[2];
-store.dispatch(fetchOfferAction({id: id}));
-store.dispatch(fetchNearbyOffersAction({id: id}));
-store.dispatch(fetchCommentsAction({id: id}));
+import {useLocation} from 'react-router-dom';
 
 const getUserStatus = (): JSX.Element => (
   <span className="property__user-status">
@@ -31,8 +27,22 @@ const getPremiumMotivator = (): JSX.Element => (
 
 const Room = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const {detailedOffer, nearbyOffers}: State = useAppSelector((state: State) => state);
+  const {detailedOffer, nearbyOffers, isUserAuth}: State = useAppSelector((state: State) => state);
   const starRating: string = detailedOffer ? ((detailedOffer.rating / 5) * 100).toFixed() : '';
+  const location = useLocation();
+  const id: string = location.pathname.split('/')[2];
+
+  const getPageData = (): void => {
+    store.dispatch(fetchOfferAction({id: id}));
+    store.dispatch(fetchNearbyOffersAction({id: id}));
+    store.dispatch(fetchCommentsAction({id: id}));
+  };
+
+  useEffect( (): void => {
+    if(id) {
+      getPageData();
+    }
+  }, [id]);
 
   useEffect(() => {
     const mapOffers: Offer[] = detailedOffer ? [...nearbyOffers, detailedOffer] : nearbyOffers;
@@ -130,7 +140,7 @@ const Room = (): JSX.Element => {
               </div>
               <section className="property__reviews reviews">
                 <CommentsList />
-                <ReviewsForm />
+                {isUserAuth ? <ReviewsForm /> : ''}
               </section>
             </div>
           </div>

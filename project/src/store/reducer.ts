@@ -13,11 +13,11 @@ import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
 import {CityName, SortingType} from '../const/const';
 
 const defaultCity: City = {
-  name: CityName.Paris,
+  name: '',
   location: {
-    'latitude': 48.85661,
-    'longitude': 2.351499,
-    'zoom': 13
+    'latitude': 0,
+    'longitude': 0,
+    'zoom': 0
   }
 };
 

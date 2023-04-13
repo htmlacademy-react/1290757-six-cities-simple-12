@@ -21,7 +21,7 @@ function useMap(
   );
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
+    if (mapRef.current !== null && mapCity && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
           lat: mapCity.location.latitude,
@@ -38,7 +38,7 @@ function useMap(
   }, [mapRef, map]);
 
   useEffect(() => {
-    if (map) {
+    if (map && mapCity) {
       map.setView([mapCity.location.latitude, mapCity.location.longitude], mapCity.location.zoom);
     }
   }, [mapCity, map]);
