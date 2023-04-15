@@ -12,7 +12,7 @@ import {
   setCommentLoadingStatus
 } from './action';
 import {AuthData, Comment, Offer, Review, State, UserData} from '../types/types';
-import {APIRoute, AppRoute} from '../const/const';
+import {ADD_COMMENT_ERROR, APIRoute, AppRoute} from '../const/const';
 import {saveToken} from '../services/token';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
@@ -97,18 +97,19 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   },
 );
 
-export const addComment = createAsyncThunk<void, {review: Review; id: string}, {
+export const addComment = createAsyncThunk<boolean, {review: Review; id: string}, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/postComment',
-  async (_arg: {review: Review; id: string}, {dispatch , extra: api}): Promise<any> => {
+  async (_arg: {review: Review; id: string}, {dispatch , extra: api}): Promise<boolean> => {
     dispatch(setCommentLoadingStatus(true));
     try {
-      return await api.post<Review>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
+      return !!await api.post<Review>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
     } catch (err) {
-      toast.error('Error, can\'t save review, please, try again');
+      toast.error(ADD_COMMENT_ERROR);
+      return false;
     } finally {
       dispatch(setCommentLoadingStatus(false));
     }

@@ -4,7 +4,6 @@ import {updateCity} from '../../store/action';
 import {CityName} from '../../const/const';
 import {State} from '../../types/types';
 
-
 const LOCATION_LIST: CityName[] = [CityName.Paris, CityName.Cologne, CityName.Brussels, CityName.Amsterdam, CityName.Hamburg, CityName.Dusseldorf];
 
 const LocationList = (): JSX.Element => {
@@ -16,7 +15,7 @@ const LocationList = (): JSX.Element => {
       <a
         className={`locations__item-link tabs__item ${city === currentCity ? 'tabs__item--active' : ''}`}
         href="#"
-        onClick={(event: SyntheticEvent) => {
+        onClick={(event: SyntheticEvent): void => {
           event.preventDefault();
           dispatch(updateCity(currentCity));
         }}

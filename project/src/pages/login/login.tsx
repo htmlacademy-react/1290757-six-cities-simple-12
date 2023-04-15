@@ -3,6 +3,8 @@ import {FormEvent, useRef} from 'react';
 import {AuthData} from '../../types/types';
 import {loginAction} from '../../store/api-action';
 import {store} from '../../store';
+import {AppRoute} from '../../const/const';
+import {Link} from 'react-router-dom';
 
 const Login = (): JSX.Element => {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -12,7 +14,7 @@ const Login = (): JSX.Element => {
     store.dispatch(loginAction(authData));
   };
 
-  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
@@ -45,9 +47,9 @@ const Login = (): JSX.Element => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to={AppRoute.Main} title={AppRoute.Main}>
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

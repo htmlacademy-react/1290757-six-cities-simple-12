@@ -11,13 +11,18 @@ const enum RatingType {
   Terribly = 'terribly',
 }
 
+const enum CommentRestriction {
+  MinLength = 50,
+  MaxLength = 300
+}
+
 const RATINGS: RatingType[] = [RatingType.Perfect, RatingType.Good, RatingType.NotBad, RatingType.Badly, RatingType.Terribly];
 
 const ReviewsForm = () => {
   const dispatch = useAppDispatch();
   const {detailedOffer, isReviewSending}: State = useAppSelector((state: State) => state);
   const [formData, setFormData]: [Review, Dispatch<SetStateAction<Review>>] = useState({rating: 0, comment: ''});
-  const isAllowedSubmit: boolean = formData.rating > 0 && formData.comment.length > 50 && formData.comment.length < 300;
+  const isAllowedSubmit: boolean = formData.rating > 0 && formData.comment.length > CommentRestriction.MinLength && formData.comment.length < CommentRestriction.MaxLength;
 
   const handleFormSubmit = (event: SyntheticEvent): void => {
     event.preventDefault();

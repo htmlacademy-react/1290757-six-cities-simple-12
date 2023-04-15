@@ -1,5 +1,8 @@
 import {Comment} from '../../types/types';
 
+const MONTH_LOCALE = 'en-US';
+const MONTH_FORMAT = 'long';
+
 type ReviewProperty = {
   comment: Comment;
 }
@@ -12,7 +15,7 @@ type FormattedDate = {
 const getFormattedDate = (commentDate: string): FormattedDate => {
   const date: Date = new Date(commentDate);
   const year: string = date.getFullYear().toString();
-  const monthAsString: string = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
+  const monthAsString: string = new Intl.DateTimeFormat(MONTH_LOCALE, { month: MONTH_FORMAT }).format(date);
   let month: string = (date.getMonth() + 1).toString();
   let day: string = date.getDate().toString();
 

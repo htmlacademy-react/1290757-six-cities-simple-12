@@ -28,3 +28,5 @@ export enum CityName {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf'
 }
+
+export const ADD_COMMENT_ERROR = 'Error, can\'t save review, please, try again';

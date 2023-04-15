@@ -4,6 +4,7 @@ import {AppRoute} from '../../const/const';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {requireAuthorization} from '../../store/action';
 import {State} from '../../types/types';
+import {dropToken} from '../../services/token';
 
 type HeaderProps = {
   isMain: boolean;
@@ -16,6 +17,7 @@ const Header = ({isMain}: HeaderProps): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const handleSingOutClick = () => {
+    dropToken();
     dispatch(requireAuthorization(false));
   };
 
