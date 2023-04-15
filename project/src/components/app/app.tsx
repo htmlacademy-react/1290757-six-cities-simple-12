@@ -6,10 +6,10 @@ import Room from '../../pages/room/room';
 import Error from '../../pages/error/error';
 import {AppRoute} from '../../const/const';
 import {useAppSelector} from '../../hooks/util';
-import {State} from '../../store/reducer';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../util/browser-history';
 import HistoryRouter from '../history-route/history-route';
+import {State} from '../../types/types';
 
 const App = (): JSX.Element => {
   const {isOffersLoading}: State = useAppSelector((state: State) => state);

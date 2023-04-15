@@ -1,3 +1,5 @@
+import {CityName, SortingType} from '../const/const';
+
 export type Offer = {
   city: City;
   previewImage: string;
@@ -88,3 +90,18 @@ export type Place = {
   latitude: number;
   longitude: number;
 }
+
+export type State = {
+  city: CityName;
+  offers: Offer[];
+  sortingType: SortingType;
+  isOffersLoading: boolean;
+  isUserAuth: boolean;
+  mapOffers: Offer[];
+  mapCity: City;
+  activeOffer: Coords | null;
+  detailedOffer: Offer | null;
+  nearbyOffers: Offer[];
+  comments: Comment[];
+  isReviewSending: boolean;
+};

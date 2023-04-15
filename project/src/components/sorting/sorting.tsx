@@ -1,8 +1,8 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {SortingType} from '../../const/const';
-import {State} from '../../store/reducer';
 import {setSorting} from '../../store/action';
+import {State} from '../../types/types';
 
 const SORTING_TYPES: SortingType[] = [SortingType.Popular, SortingType.LowToHigh, SortingType.HighToLow, SortingType.TopRates];
 
@@ -11,13 +11,13 @@ const Sorting = (): JSX.Element => {
   const {sortingType}: State = useAppSelector((state: State) => state);
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (currentSortingType: SortingType): void => {
+  const handleElementClick = (currentSortingType: SortingType): void => {
     setSelectorState(false);
     dispatch(setSorting(currentSortingType));
   };
 
   const getFilterElement = (currentSortingType: SortingType, isActive: boolean): JSX.Element => (
-    <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={() => onClickHandler(currentSortingType)}>{currentSortingType}</li>
+    <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={() => handleElementClick(currentSortingType)}>{currentSortingType}</li>
   );
 
   return (

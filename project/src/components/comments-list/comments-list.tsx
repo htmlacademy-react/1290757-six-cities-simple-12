@@ -1,13 +1,12 @@
-import {Comment} from '../../types/types';
+import {Comment, State} from '../../types/types';
 import CommentItem from '../comment-item/comment-item';
 import React from 'react';
-import {State} from '../../store/reducer';
 import {useAppSelector} from '../../hooks/util';
 
 const CommentsList = (): JSX.Element => {
   const {comments}: State = useAppSelector((state: State) => state);
   const sortedComments: Comment[] = comments?.length >= 2
-    ? [...comments].sort((a: Comment, b: Comment) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    ? [...comments].sort((comment: Comment, ComparedComment: Comment) => new Date(ComparedComment.date).getTime() - new Date(comment.date).getTime())
     : comments;
   const shownReviews: Comment[] = sortedComments.slice(0, 10);
 

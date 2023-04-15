@@ -1,9 +1,8 @@
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import {Icon, Marker} from 'leaflet';
-import {Offer, Point} from '../../types/types';
+import {Offer, Point, State} from '../../types/types';
 import 'leaflet/dist/leaflet.css';
-import {State} from '../../store/reducer';
 import {useAppSelector} from '../../hooks/util';
 
 type MapProps = {

@@ -19,16 +19,8 @@ const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
     </div>
   );
 
-  const onMouseOverHandler = (): void => {
-    dispatch(setActiveOffer(coords));
-  };
-
-  const onMouseLeaveHandler = (): void => {
-    dispatch(setActiveOffer(null));
-  };
-
   return (
-    <article className={`${type}__card place-card`} onMouseOver={onMouseOverHandler} onMouseLeave={onMouseLeaveHandler}>
+    <article className={`${type}__card place-card`} onMouseOver={() => dispatch(setActiveOffer(coords))} onMouseLeave={() => dispatch(setActiveOffer(null))}>
       {place.isPremium ? GetMotivator() : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">

@@ -5,9 +5,8 @@ import Map from '../../components/map/map';
 import {getPlacesFromOffers} from '../../util/util';
 import LocationList from '../../components/location-list/location-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
-import {State} from '../../store/reducer';
 import Sorting from '../../components/sorting/sorting';
-import {Offer} from '../../types/types';
+import {Offer, State} from '../../types/types';
 import {CityName, SortingType} from '../../const/const';
 import {setMapCity, setMapOffers} from '../../store/action';
 

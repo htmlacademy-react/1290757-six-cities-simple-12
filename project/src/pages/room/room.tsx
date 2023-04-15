@@ -5,10 +5,9 @@ import Map from '../../components/map/map';
 import React, {useEffect} from 'react';
 import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
-import {State} from '../../store/reducer';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
-import {Coords, Offer} from '../../types/types';
+import {Coords, Offer, State} from '../../types/types';
 import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
 import {useLocation} from 'react-router-dom';
 

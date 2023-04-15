@@ -1,8 +1,8 @@
 import React, {SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {updateCity} from '../../store/action';
-import {State} from '../../store/reducer';
 import {CityName} from '../../const/const';
+import {State} from '../../types/types';
 
 
 const LOCATION_LIST: CityName[] = [CityName.Paris, CityName.Cologne, CityName.Brussels, CityName.Amsterdam, CityName.Hamburg, CityName.Dusseldorf];

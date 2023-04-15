@@ -8,32 +8,17 @@ import {
   setSorting,
   updateCity, setMapOffers, setCommentLoadingStatus
 } from './action';
-import {City, Comment, Coords, Offer} from '../types/types';
+import {City, Comment, Coords, Offer, State} from '../types/types';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
 import {CityName, SortingType} from '../const/const';
 
-const defaultCity: City = {
+const DEFAULT_CITY: City = {
   name: '',
   location: {
     'latitude': 0,
     'longitude': 0,
     'zoom': 0
   }
-};
-
-export type State = {
-  city: CityName;
-  offers: Offer[];
-  sortingType: SortingType;
-  isOffersLoading: boolean;
-  isUserAuth: boolean;
-  mapOffers: Offer[];
-  mapCity: City;
-  activeOffer: Coords | null;
-  detailedOffer: Offer | null;
-  nearbyOffers: Offer[];
-  comments: Comment[];
-  isReviewSending: boolean;
 };
 
 const initialState: State = {
@@ -43,7 +28,7 @@ const initialState: State = {
   isOffersLoading: false,
   isUserAuth: false,
   mapOffers: [],
-  mapCity: defaultCity,
+  mapCity: DEFAULT_CITY,
   activeOffer: null,
   detailedOffer: null,
   nearbyOffers: [],

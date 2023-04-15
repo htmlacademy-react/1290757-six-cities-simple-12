@@ -1,10 +1,9 @@
-import React, {ChangeEvent, Dispatch, Fragment, SetStateAction, SyntheticEvent, useEffect, useState} from 'react';
-import {Review} from '../../types/types';
+import React, {ChangeEvent, Dispatch, Fragment, SetStateAction, SyntheticEvent, useState} from 'react';
+import {Review, State} from '../../types/types';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {addComment} from '../../store/api-action';
-import {State} from '../../store/reducer';
 
-enum RatingType {
+const enum RatingType {
   Perfect = 'perfect',
   Good = 'good',
   NotBad = 'not bad',
@@ -20,7 +19,7 @@ const ReviewsForm = () => {
   const [formData, setFormData]: [Review, Dispatch<SetStateAction<Review>>] = useState({rating: 0, comment: ''});
   const isAllowedSubmit: boolean = formData.rating > 0 && formData.comment.length > 50 && formData.comment.length < 300;
 
-  const onSubmitHandler = (event: SyntheticEvent): void => {
+  const handleFormSubmit = (event: SyntheticEvent): void => {
     event.preventDefault();
 
     if (detailedOffer) {
@@ -52,7 +51,7 @@ const ReviewsForm = () => {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={onSubmitHandler}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {RATINGS.map((currentRating: string, count: number): JSX.Element => getStartRating(currentRating, count))}

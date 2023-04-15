@@ -1,9 +1,9 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
-import {State} from '../../store/reducer';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {requireAuthorization} from '../../store/action';
+import {State} from '../../types/types';
 
 type HeaderProps = {
   isMain: boolean;
@@ -15,7 +15,7 @@ const Header = ({isMain}: HeaderProps): JSX.Element => {
   const isLoginPage: boolean = location.pathname === AppRoute.Login;
   const dispatch = useAppDispatch();
 
-  const onSingOutClickHandler = () => {
+  const handleSingOutClick = () => {
     dispatch(requireAuthorization(false));
   };
 
@@ -44,7 +44,7 @@ const Header = ({isMain}: HeaderProps): JSX.Element => {
           </div>
         </li>
         <li className="header__nav-item">
-          <Link to={AppRoute.Login} title={AppRoute.Login} onClick={onSingOutClickHandler}>
+          <Link to={AppRoute.Login} title={AppRoute.Login} onClick={handleSingOutClick}>
             <span className="header__nav-link">
               <span className="header__signout">Sign out</span>
             </span>
