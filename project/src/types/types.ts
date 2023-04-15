@@ -76,3 +76,15 @@ export type Review = {
   comment: string;
   rating: number;
 }
+
+export type Place = {
+  id: number;
+  isPremium: boolean;
+  previewImage: string;
+  price: number;
+  rating: string;
+  title: string;
+  type: string;
+  latitude: number;
+  longitude: number;
+}

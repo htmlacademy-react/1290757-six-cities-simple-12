@@ -6,7 +6,10 @@ import {useAppSelector} from '../../hooks/util';
 
 const CommentsList = (): JSX.Element => {
   const {comments}: State = useAppSelector((state: State) => state);
-  const shownReviews: Comment[] = comments.slice(0, 10);
+  const sortedComments: Comment[] = comments?.length >= 2
+    ? [...comments].sort((a: Comment, b: Comment) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    : comments;
+  const shownReviews: Comment[] = sortedComments.slice(0, 10);
 
   return (
     <>

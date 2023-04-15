@@ -1,5 +1,6 @@
-import PlaceCard, {Place} from '../place-card/place-card';
+import PlaceCard from '../place-card/place-card';
 import React from 'react';
+import {Place} from '../../types/types';
 
 type PlaceListProperty = {
   places: Place[];

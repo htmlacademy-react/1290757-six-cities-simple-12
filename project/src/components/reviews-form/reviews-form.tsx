@@ -26,7 +26,9 @@ const ReviewsForm = () => {
     if (detailedOffer) {
       dispatch(addComment({review: formData, id: detailedOffer.id.toString()}))
         .then((data): void => {
-          setFormData({rating: 0, comment: ''});
+          if (data.payload) {
+            setFormData({rating: 0, comment: ''});
+          }
         });
     }
   };

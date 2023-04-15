@@ -1,39 +1,23 @@
-import {generatePath} from 'react-router-dom';
+import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
 import {setActiveOffer} from '../../store/action';
 import {useAppDispatch} from '../../hooks/util';
-import {Coords} from '../../types/types';
-
-export type Place = {
-  id: number;
-  isPremium: boolean;
-  previewImage: string;
-  price: number;
-  rating: string;
-  title: string;
-  type: string;
-  latitude: number;
-  longitude: number;
-}
+import {Coords, Place} from '../../types/types';
 
 type PlaceCardProperty = {
   place: Place;
   type: string;
 }
 
-const GetMotivator = (): JSX.Element => (
-  <div className="place-card__mark">
-    <span>Premium</span>
-  </div>
-);
-
 const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
   const dispatch = useAppDispatch();
   const coords: Coords = {latitude: place.latitude, longitude: place.longitude};
 
-  const onClickHandler = () => {
-    location.replace(generatePath(AppRoute.Offer, {id: place.id.toString()}));
-  };
+  const GetMotivator = (): JSX.Element => (
+    <div className="place-card__mark">
+      <span>Premium</span>
+    </div>
+  );
 
   const onMouseOverHandler = (): void => {
     dispatch(setActiveOffer(coords));
@@ -66,7 +50,7 @@ const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#" onClick={onClickHandler}>{place.title}</a>
+          <Link to={generatePath(AppRoute.Offer, {id: place.id.toString()})}>{place.title}</Link>
         </h2>
         <p className="place-card__type">{place.type}</p>
       </div>

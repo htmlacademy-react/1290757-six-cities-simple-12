@@ -4,8 +4,35 @@ type ReviewProperty = {
   comment: Comment;
 }
 
+type FormattedDate = {
+  dateTime: string;
+  visibleDate: string;
+}
+
+const getFormattedDate = (commentDate: string): FormattedDate => {
+  const date: Date = new Date(commentDate);
+  const year: string = date.getFullYear().toString();
+  const monthAsString: string = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
+  let month: string = (date.getMonth() + 1).toString();
+  let day: string = date.getDate().toString();
+
+  if (month.length < 2) {
+    month = `0${month}`;
+  }
+
+  if (day.length < 2) {
+    day = `0${day}`;
+  }
+
+  return {
+    dateTime: `${year}-${month}-${day}`,
+    visibleDate: `${monthAsString} ${year}`
+  };
+};
+
 const CommentItem = ({comment}: ReviewProperty): JSX.Element => {
   const starRating: string = ((comment.rating / 5) * 100).toFixed();
+  const formattedDate: FormattedDate = getFormattedDate(comment.date);
 
   return (
     <li className="reviews__item">
@@ -23,7 +50,7 @@ const CommentItem = ({comment}: ReviewProperty): JSX.Element => {
           </div>
         </div>
         <p className="reviews__text">{comment.comment}</p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time className="reviews__time" dateTime={formattedDate.dateTime}>{formattedDate.visibleDate}</time>
       </div>
     </li>
   );

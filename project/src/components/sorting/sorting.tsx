@@ -11,13 +11,13 @@ const Sorting = (): JSX.Element => {
   const {sortingType}: State = useAppSelector((state: State) => state);
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (): void => {
+  const onClickHandler = (currentSortingType: SortingType): void => {
     setSelectorState(false);
-    dispatch(setSorting(sortingType));
+    dispatch(setSorting(currentSortingType));
   };
 
   const getFilterElement = (currentSortingType: SortingType, isActive: boolean): JSX.Element => (
-    <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={onClickHandler}>{currentSortingType}</li>
+    <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={() => onClickHandler(currentSortingType)}>{currentSortingType}</li>
   );
 
   return (

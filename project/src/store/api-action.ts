@@ -115,4 +115,3 @@ export const addComment = createAsyncThunk<void, {review: Review; id: string}, {
     }
   },
 );
-
