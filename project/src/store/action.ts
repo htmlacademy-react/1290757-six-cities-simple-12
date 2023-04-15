@@ -1,10 +1,17 @@
 import {ActionCreatorWithPayload, createAction} from '@reduxjs/toolkit';
-import {Offer} from '../types/types';
+import {City, Comment, Coords, Offer} from '../types/types';
+import {AppRoute, CityName, SortingType} from '../const/const';
 
-export const updateCity: ActionCreatorWithPayload<string> = createAction<string>('city/update');
-export const updateOffers: ActionCreatorWithPayload<void> = createAction('offers/update');
-export const sortOffers: ActionCreatorWithPayload<string> = createAction<string>('offers/sort');
+export const updateCity: ActionCreatorWithPayload<CityName> = createAction<CityName>('city/update');
+export const setSorting: ActionCreatorWithPayload<SortingType> = createAction<SortingType>('offers/setSorting');
 export const loadOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('offers/load');
-export const setError = createAction<string | null>('app/setError');
-export const setOffersLoadingStatus = createAction<boolean>('offers/loadingStatus');
-export const requireAuthorization = createAction<boolean>('user/auth');
+export const loadOffer: ActionCreatorWithPayload<Offer> = createAction<Offer>('offers/loadOffer');
+export const loadNearbyOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('offers/loadNearbyOffer');
+export const loadComments: ActionCreatorWithPayload<Comment[]> = createAction<Comment[]>('offers/loadComments');
+export const setOffersLoadingStatus: ActionCreatorWithPayload<boolean> = createAction<boolean>('offers/loadingStatus');
+export const requireAuthorization: ActionCreatorWithPayload<boolean> = createAction<boolean>('user/auth');
+export const redirectToRoute: ActionCreatorWithPayload<AppRoute> = createAction<AppRoute>('app/redirectToRoute');
+export const setMapOffers: ActionCreatorWithPayload<Offer[]> = createAction<Offer[]>('map/setMapOffers');
+export const setMapCity: ActionCreatorWithPayload<City> = createAction<City>('map/setCity');
+export const setActiveOffer: ActionCreatorWithPayload<Coords | null> = createAction<Coords | null>('offers/setActiveOffer');
+export const setCommentLoadingStatus: ActionCreatorWithPayload<boolean> = createAction<boolean>('comments/loadingStatus');

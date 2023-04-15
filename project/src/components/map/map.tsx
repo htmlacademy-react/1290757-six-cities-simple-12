@@ -1,17 +1,15 @@
-import {useEffect, useRef} from 'react';
-import useMap from '../../hooks/useMap';
+import {Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
+import useMap from '../../hooks/use-map';
 import {Icon, Marker} from 'leaflet';
-import {MapCity, Point, Points} from '../../types/types';
+import {Offer, Point, State} from '../../types/types';
 import 'leaflet/dist/leaflet.css';
-
-// TODO: Не реализовано подсвечивание маркера при наведении на размещение
+import {useAppSelector} from '../../hooks/util';
 
 type MapProps = {
-  city: MapCity;
-  points: Points;
-  selectedPoint: Point;
   type: string;
 };
+
+const MAP_HEIGHT = '500px';
 
 const defaultCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -25,13 +23,27 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-const Map = ({city, points, selectedPoint, type}: MapProps): JSX.Element => {
+const getMapPoints = (offers: Offer[]): Point[] =>
+  offers.map((offer: Offer) => ({
+    title: offer.title,
+    lat: offer.location.latitude,
+    lng: offer.location.longitude,
+    zoom: offer.location.zoom
+  }));
+
+const Map = ({type}: MapProps): JSX.Element => {
+  const {mapOffers, activeOffer}: State = useAppSelector((state: State) => state);
+  const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mapOffers));
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef);
+
+  useEffect(() => {
+    setLocations(getMapPoints(mapOffers));
+  }, [mapOffers]);
 
   useEffect(() => {
     if (map) {
-      points.forEach((point: Point) => {
+      locations.forEach((point: Point) => {
         const marker = new Marker({
           lat: point.lat,
           lng: point.lng
@@ -39,16 +51,16 @@ const Map = ({city, points, selectedPoint, type}: MapProps): JSX.Element => {
 
         marker
           .setIcon(
-            point.title === selectedPoint.title
+            point.lat === activeOffer?.latitude && point.lng === activeOffer.longitude
               ? currentCustomIcon
               : defaultCustomIcon
           )
           .addTo(map);
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, locations, activeOffer]);
 
-  return <section className={`${type}__map map`} style={{height: '500px'}} ref={mapRef}></section>;
+  return <section className={`${type}__map map`} style={{height: MAP_HEIGHT}} ref={mapRef}></section>;
 };
 
 export default Map;

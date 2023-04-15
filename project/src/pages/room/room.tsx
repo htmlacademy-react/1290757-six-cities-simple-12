@@ -1,20 +1,15 @@
 import Header from '../../components/header/header';
-import {Comment, Offer} from '../../types/types';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
-import {useParams} from 'react-router-dom';
-import ReviewsList from '../../components/reviews-list/reviews-list';
-import {CITY} from '../../mocks/city';
-import {POINTS} from '../../mocks/points';
+import CommentsList from '../../components/comments-list/comments-list';
 import Map from '../../components/map/map';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
-import {State} from '../../store/reducer';
-import {useAppSelector} from '../../hooks/util';
-
-type RoomProps = {
-  reviews: Comment[];
-}
+import {useAppDispatch, useAppSelector} from '../../hooks/util';
+import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
+import {Coords, Offer, State} from '../../types/types';
+import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
+import {useLocation} from 'react-router-dom';
 
 const getUserStatus = (): JSX.Element => (
   <span className="property__user-status">
@@ -22,17 +17,47 @@ const getUserStatus = (): JSX.Element => (
   </span>
 );
 
-const Room = ({reviews}: RoomProps): JSX.Element => {
-  const {offers}: State = useAppSelector((state: State) => state);
-  const { id } = useParams();
-  const currentOfferId = id ? Number(id) : 0;
-  const [room, setRoom]: [Offer, Dispatch<SetStateAction<Offer>>] = useState(offers[currentOfferId]);
-  const starRating: string = ((room.rating / 5) * 100).toFixed();
-  const otherPlaceOffers: Offer[] = [...offers.slice(0, currentOfferId), ...offers.slice(currentOfferId + 1)];
+const getPremiumMotivator = (): JSX.Element => (
+  <div className="property__mark">
+    <span>Premium</span>
+  </div>
+);
+
+const Room = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const {detailedOffer, nearbyOffers, isUserAuth}: State = useAppSelector((state: State) => state);
+  const starRating: string = detailedOffer ? ((detailedOffer.rating / 5) * 100).toFixed() : '';
+  const location = useLocation();
+  const id: string = location.pathname.split('/')[2];
+
+  const getPageData = (): void => {
+    dispatch(fetchOfferAction({id: id}));
+    dispatch(fetchNearbyOffersAction({id: id}));
+    dispatch(fetchCommentsAction({id: id}));
+  };
+
+  useEffect( (): void => {
+    if(id) {
+      getPageData();
+    }
+  }, [id]);
 
   useEffect(() => {
-    setRoom(offers.find((offer: Offer): boolean => offer.id === currentOfferId) ?? offers[0]);
-  }, []);
+    const mapOffers: Offer[] = detailedOffer ? [...nearbyOffers, detailedOffer] : nearbyOffers;
+
+    dispatch(setMapOffers(mapOffers));
+    dispatch(setMapCity(mapOffers[0]?.city));
+
+    if (detailedOffer) {
+      const coords: Coords = {latitude: detailedOffer?.location.latitude, longitude: detailedOffer?.location.longitude};
+
+      dispatch(setActiveOffer(coords));
+
+      return () => {
+        dispatch(setActiveOffer(null));
+      };
+    }
+  }, [detailedOffer, nearbyOffers]);
 
   return (
     <div className="page">
@@ -42,21 +67,19 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {room.images.map((img: string, count: number): JSX.Element => (
+              {detailedOffer?.images.map((img: string, count: number): JSX.Element | string => count < 6 ? (
                 <div key={Math.random() * Number.MAX_VALUE} className="property__image-wrapper">
-                  <img className="property__image" src={img} alt={room.type} />
+                  <img className="property__image" src={img} alt={detailedOffer.type} />
                 </div>
-              ))}
+              ) : '')}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {detailedOffer?.isPremium ? getPremiumMotivator() : ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {room.title}
+                  {detailedOffer?.title}
                 </h1>
               </div>
               <div className="property__rating rating">
@@ -64,7 +87,7 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                   <span style={{width: `${starRating}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{room.rating}</span>
+                <span className="property__rating-value rating__value">{detailedOffer?.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
@@ -78,13 +101,13 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{room.price}</b>
+                <b className="property__price-value">&euro;{detailedOffer?.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {room.goods.map((good: string): JSX.Element => (
+                  {detailedOffer?.goods.map((good: string): JSX.Element => (
                     <li key={Math.random() * Number.MAX_VALUE} className="property__inside-item">
                       {good}
                     </li>
@@ -95,12 +118,12 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={room.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={detailedOffer?.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {room.host.name}
+                    {detailedOffer?.host.name}
                   </span>
-                  {room.host.isPro ? getUserStatus() : ''}
+                  {detailedOffer?.host.isPro ? getUserStatus() : ''}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
@@ -114,17 +137,17 @@ const Room = ({reviews}: RoomProps): JSX.Element => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsList reviews={reviews}/>
-                <ReviewsForm />
+                <CommentsList />
+                {isUserAuth ? <ReviewsForm /> : ''}
               </section>
             </div>
           </div>
-          <Map city={CITY} points={POINTS} selectedPoint={POINTS[0]} type='property' />
+          <Map type='property' />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <PlaceList places={getPlacesFromOffers(otherPlaceOffers)} type="near-places" />
+            <PlaceList places={getPlacesFromOffers(nearbyOffers)} type="near-places" />
           </section>
         </div>
       </main>

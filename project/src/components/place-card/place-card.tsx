@@ -1,34 +1,26 @@
-import {generatePath, useNavigate} from 'react-router-dom';
+import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
-import {SyntheticEvent} from 'react';
-
-export type Place = {
-  id: number;
-  isPremium: boolean;
-  previewImage: string;
-  price: number;
-  rating: string;
-  title: string;
-  type: string;
-}
+import {setActiveOffer} from '../../store/action';
+import {useAppDispatch} from '../../hooks/util';
+import {Coords, Place} from '../../types/types';
 
 type PlaceCardProperty = {
   place: Place;
-  clickHandler: (id: number) => void;
   type: string;
 }
 
-const GetMotivator = (): JSX.Element => (
-  <div className="place-card__mark">
-    <span>Premium</span>
-  </div>
-);
+const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const coords: Coords = {latitude: place.latitude, longitude: place.longitude};
 
-const PlaceCard = ({place, clickHandler, type}: PlaceCardProperty): JSX.Element => {
-  const navigate = useNavigate();
+  const GetMotivator = (): JSX.Element => (
+    <div className="place-card__mark">
+      <span>Premium</span>
+    </div>
+  );
 
   return (
-    <article className={`${type}__card place-card`} onClick={() => clickHandler(place.id)}>
+    <article className={`${type}__card place-card`} onMouseOver={() => dispatch(setActiveOffer(coords))} onMouseLeave={() => dispatch(setActiveOffer(null))}>
       {place.isPremium ? GetMotivator() : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
@@ -50,12 +42,7 @@ const PlaceCard = ({place, clickHandler, type}: PlaceCardProperty): JSX.Element 
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#" onClick={(event: SyntheticEvent) => {
-            event.preventDefault();
-            navigate(generatePath(AppRoute.Offer, {id: place.id.toString()}));
-          }}
-          >{place.title}
-          </a>
+          <Link to={generatePath(AppRoute.Offer, {id: place.id.toString()})}>{place.title}</Link>
         </h2>
         <p className="place-card__type">{place.type}</p>
       </div>

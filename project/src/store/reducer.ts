@@ -1,69 +1,78 @@
 import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/toolkit';
 import {
-  loadOffers,
-  requireAuthorization,
-  setError,
+  loadComments,
+  loadNearbyOffers,
+  loadOffers, loadOffer,
+  requireAuthorization, setActiveOffer, setMapCity,
   setOffersLoadingStatus,
-  sortOffers,
-  updateCity,
-  updateOffers
+  setSorting,
+  updateCity, setMapOffers, setCommentLoadingStatus
 } from './action';
-import {Offer} from '../types/types';
-import {CITY_LIST} from '../mocks/city';
-import {getCityOffers} from '../util/util';
+import {City, Comment, Coords, Offer, State} from '../types/types';
 import {ReducerWithInitialState} from '@reduxjs/toolkit/dist/createReducer';
-import {SortingTypes} from '../const/const';
+import {CityName, SortingType} from '../const/const';
 
-export type State = {
-  city: string;
-  offers: Offer[];
-  error: string | null;
-  isOffersLoading: boolean;
-  isUserAuth: boolean;
+const DEFAULT_CITY: City = {
+  name: '',
+  location: {
+    'latitude': 0,
+    'longitude': 0,
+    'zoom': 0
+  }
 };
 
 const initialState: State = {
-  city: CITY_LIST[0],
+  city: CityName.Paris,
   offers: [],
-  error: null,
+  sortingType: SortingType.Popular,
   isOffersLoading: false,
-  isUserAuth: false
+  isUserAuth: false,
+  mapOffers: [],
+  mapCity: DEFAULT_CITY,
+  activeOffer: null,
+  detailedOffer: null,
+  nearbyOffers: [],
+  comments: [],
+  isReviewSending: false
 };
 
 const reducer: ReducerWithInitialState<State> = createReducer(initialState, (builder: ActionReducerMapBuilder<State>): void => {
   builder
-    .addCase(updateCity, (state: State, action: PayloadAction<string>): void => {
+    .addCase(updateCity, (state: State, action: PayloadAction<CityName>): void => {
       state.city = action.payload;
     })
-    .addCase(updateOffers, (state: State): void => {
-      state.offers = getCityOffers(state);
-    })
-    .addCase(sortOffers, (state: State, action: PayloadAction<string>): void => {
-      switch (action.payload) {
-        case SortingTypes.LowToHigh:
-          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => value.price - comparedValue.price);
-          break;
-        case SortingTypes.HighToLow:
-          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => comparedValue.price - value.price);
-          break;
-        case SortingTypes.TopRates:
-          state.offers = state.offers.sort((value: Offer, comparedValue: Offer) => comparedValue.rating - value.rating);
-          break;
-        default:
-          state.offers = getCityOffers(state);
-      }
+    .addCase(setSorting, (state: State, action: PayloadAction<SortingType>): void => {
+      state.sortingType = action.payload;
     })
     .addCase(loadOffers, (state: State, action: PayloadAction<Offer[]>): void => {
       state.offers = action.payload;
     })
-    .addCase(setError, (state: State, action: PayloadAction<string | null>): void => {
-      state.error = action.payload;
+    .addCase(loadOffer, (state: State, action: PayloadAction<Offer>): void => {
+      state.detailedOffer = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state: State, action: PayloadAction<Offer[]>): void => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadComments, (state: State, action: PayloadAction<Comment[]>): void => {
+      state.comments = action.payload;
     })
     .addCase(setOffersLoadingStatus, (state: State, action: PayloadAction<boolean>): void => {
       state.isOffersLoading = action.payload;
     })
     .addCase(requireAuthorization, (state: State, action: PayloadAction<boolean>): void => {
       state.isUserAuth = action.payload;
+    })
+    .addCase(setMapOffers, (state: State, action: PayloadAction<Offer[]>): void => {
+      state.mapOffers = action.payload;
+    })
+    .addCase(setMapCity, (state: State, action: PayloadAction<City>): void => {
+      state.mapCity = action.payload;
+    })
+    .addCase(setActiveOffer, (state: State, action: PayloadAction<Coords | null>): void => {
+      state.activeOffer = action.payload;
+    })
+    .addCase(setCommentLoadingStatus, (state: State, action: PayloadAction<boolean>): void => {
+      state.isReviewSending = action.payload;
     });
 });
 

@@ -1,47 +1,36 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
-import {useAppDispatch} from '../../hooks/util';
-import {sortOffers} from '../../store/action';
-import {SortingTypes} from '../../const/const';
+import {useAppDispatch, useAppSelector} from '../../hooks/util';
+import {SortingType} from '../../const/const';
+import {setSorting} from '../../store/action';
+import {State} from '../../types/types';
 
-type SortingState = {
-  isOpen: boolean;
-  sortingType: string;
-}
-
-const SORTING_TYPES: SortingTypes[] = [SortingTypes.Popular, SortingTypes.LowToHigh, SortingTypes.HighToLow, SortingTypes.TopRates];
-
-const sortingState: SortingState = {
-  isOpen: false,
-  sortingType: SortingTypes.Popular
-};
+const SORTING_TYPES: SortingType[] = [SortingType.Popular, SortingType.LowToHigh, SortingType.HighToLow, SortingType.TopRates];
 
 const Sorting = (): JSX.Element => {
-  const [currentSorting, setCurrentSorting]: [SortingState, Dispatch<SetStateAction<SortingState>>] = useState(sortingState);
+  const [selectorState, setSelectorState]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false);
+  const {sortingType}: State = useAppSelector((state: State) => state);
   const dispatch = useAppDispatch();
 
-  const getFilterElement = (sortingType: string): JSX.Element => {
-    const isActive: boolean = sortingType === currentSorting.sortingType;
-    const onClickHandler = (): void => {
-      setCurrentSorting({isOpen: !currentSorting.isOpen, sortingType: sortingType});
-      dispatch(sortOffers(sortingType));
-    };
-
-    return (
-      <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={onClickHandler}>{sortingType}</li>
-    );
+  const handleElementClick = (currentSortingType: SortingType): void => {
+    setSelectorState(false);
+    dispatch(setSorting(currentSortingType));
   };
+
+  const getFilterElement = (currentSortingType: SortingType, isActive: boolean): JSX.Element => (
+    <li key={Math.random() * Number.MAX_VALUE} className={`places__option ${isActive ? 'places__option--active' : ''}`} onClick={() => handleElementClick(currentSortingType)}>{currentSortingType}</li>
+  );
 
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" onClick={() => setCurrentSorting({isOpen: !currentSorting.isOpen, sortingType: currentSorting.sortingType})}>
-        {currentSorting.sortingType}
+      <span className="places__sorting-type" onClick={(): void => {setSelectorState(true);}}>
+        {sortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${currentSorting.isOpen ? 'places__options--opened' : ''}`}>
-        {SORTING_TYPES.map((sortingType: string) => getFilterElement(sortingType))}
+      <ul className={`places__options places__options--custom ${selectorState ? 'places__options--opened' : ''}`}>
+        {SORTING_TYPES.map((iterableSortingType: SortingType) => getFilterElement(iterableSortingType, iterableSortingType === sortingType))}
       </ul>
     </form>
   );

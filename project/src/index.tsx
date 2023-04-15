@@ -1,18 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {reviewsMock} from './mocks/reviews';
 import {Provider} from 'react-redux';
 import {store} from './store';
-import ErrorMessage from './components/error-message/error-message';
 import {checkAuthAction, fetchOffersAction} from './store/api-action';
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from 'react-toastify';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchOffersAction());
-
-const Settings = {
-  Reviews: reviewsMock
-} as const;
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -21,8 +17,8 @@ const root: ReactDOM.Root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ErrorMessage />
-      <App reviews={Settings.Reviews} />
+      <ToastContainer />
+      <App />
     </ Provider>
   </React.StrictMode>,
 );

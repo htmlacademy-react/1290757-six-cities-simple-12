@@ -1,12 +1,14 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {getToken} from './token';
-import {processErrorHandle} from './process-error-handle';
+import {toast} from 'react-toastify';
 import {StatusCodes} from 'http-status-codes';
+import {redirectToRoute} from '../store/action';
+import {AppRoute} from '../const/const';
+import {store} from '../store';
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true
+  [StatusCodes.UNAUTHORIZED]: true
 };
 
 const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
@@ -35,8 +37,10 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<{error: string}>): void => {
-      if (error.response && shouldDisplayError(error.response)) {
-        processErrorHandle(error.response.data.error);
+      if (error.response && error.response.status === StatusCodes.NOT_FOUND) {
+        store.dispatch(redirectToRoute(AppRoute.Error));
+      } else if (error.response && shouldDisplayError(error.response)) {
+        toast.warn(error.response.data.error);
       }
 
       throw error;

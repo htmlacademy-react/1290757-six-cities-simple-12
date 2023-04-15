@@ -1,10 +1,11 @@
 export enum AppRoute {
   Main = '/',
   Login = '/login',
-  Offer = '/offer/:id'
+  Offer = '/offer/:id',
+  Error = '/error',
 }
 
-export enum SortingTypes {
+export enum SortingType {
   Popular = 'Popular',
   LowToHigh = 'Price: low to high',
   HighToLow = 'Price: high to low',
@@ -12,9 +13,20 @@ export enum SortingTypes {
 }
 
 export enum APIRoute {
-  Offer = '/hotels',
+  Offers = '/hotels',
+  Offer = '/hotels/:id',
+  Nearby = '/hotels/:id/nearby',
   Login = '/login',
-  Comment = '/comments',
+  Comments = '/comments/:id',
 }
 
-export const TIMEOUT_SHOW_ERROR = 2000;
+export enum CityName {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf'
+}
+
+export const ADD_COMMENT_ERROR = 'Error, can\'t save review, please, try again';
