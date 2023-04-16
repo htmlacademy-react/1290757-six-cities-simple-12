@@ -76,4 +76,4 @@ const Header = ({isMain}: HeaderProps): JSX.Element => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

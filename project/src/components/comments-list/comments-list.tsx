@@ -22,4 +22,4 @@ const CommentsList = (): JSX.Element => {
   );
 };
 
-export default CommentsList;
+export default React.memo(CommentsList);
