@@ -73,7 +73,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {dispatch, extra: api}): Promise<void> => {
     try {
       await api.get(APIRoute.Login);
       dispatch(requireAuthorization(true));
@@ -89,7 +89,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({login: email, password}, {dispatch, extra: api}) => {
+  async ({login: email, password}, {dispatch, extra: api}): Promise<void> => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(true));
@@ -106,7 +106,9 @@ export const addComment = createAsyncThunk<boolean, {review: Review; id: string}
   async (_arg: {review: Review; id: string}, {dispatch , extra: api}): Promise<boolean> => {
     dispatch(setCommentLoadingStatus(true));
     try {
-      return !!await api.post<Review>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
+      const {data} = await api.post<Comment[]>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
+      dispatch(loadComments(data));
+      return true;
     } catch (err) {
       toast.error(ADD_COMMENT_ERROR);
       return false;

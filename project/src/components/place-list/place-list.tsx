@@ -15,4 +15,4 @@ const PlaceList = ({places, type}: PlaceListProperty): JSX.Element => (
   </div>
 );
 
-export default PlaceList;
+export default React.memo(PlaceList);

@@ -36,4 +36,4 @@ const Sorting = (): JSX.Element => {
   );
 };
 
-export default Sorting;
+export default React.memo(Sorting);

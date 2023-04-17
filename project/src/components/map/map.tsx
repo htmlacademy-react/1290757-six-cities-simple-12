@@ -9,8 +9,6 @@ type MapProps = {
   type: string;
 };
 
-const MAP_HEIGHT = '500px';
-
 const defaultCustomIcon = new Icon({
   iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
   iconSize: [40, 40],
@@ -60,7 +58,7 @@ const Map = ({type}: MapProps): JSX.Element => {
     }
   }, [map, locations, activeOffer]);
 
-  return <section className={`${type}__map map`} style={{height: MAP_HEIGHT}} ref={mapRef}></section>;
+  return <section className={`${type}__map map`} ref={mapRef}></section>;
 };
 
 export default Map;

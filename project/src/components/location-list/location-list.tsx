@@ -32,4 +32,4 @@ const LocationList = (): JSX.Element => {
   );
 };
 
-export default LocationList;
+export default React.memo(LocationList);
