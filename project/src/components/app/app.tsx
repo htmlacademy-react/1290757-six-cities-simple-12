@@ -9,10 +9,10 @@ import {useAppSelector} from '../../hooks/util';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../util/browser-history';
 import HistoryRouter from '../history-route/history-route';
-import {State} from '../../types/types';
+import {OfferState, State} from '../../types/state';
 
 const App = (): JSX.Element => {
-  const {isOffersLoading}: State = useAppSelector((state: State) => state);
+  const {isOffersLoading}: OfferState = useAppSelector((state: State) => state.offerReducer);
 
   if (isOffersLoading) {
     return (

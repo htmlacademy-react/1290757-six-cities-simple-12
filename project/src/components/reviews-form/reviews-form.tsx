@@ -1,5 +1,6 @@
 import React, {ChangeEvent, Dispatch, Fragment, SetStateAction, SyntheticEvent, useState} from 'react';
-import {Review, State} from '../../types/types';
+import {Feedback} from '../../types/types';
+import {OfferState, ReviewState, State} from '../../types/state';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {addComment} from '../../store/api-action';
 
@@ -20,8 +21,9 @@ const RATINGS: RatingType[] = [RatingType.Perfect, RatingType.Good, RatingType.N
 
 const ReviewsForm = () => {
   const dispatch = useAppDispatch();
-  const {detailedOffer, isReviewSending}: State = useAppSelector((state: State) => state);
-  const [formData, setFormData]: [Review, Dispatch<SetStateAction<Review>>] = useState({rating: 0, comment: ''});
+  const {isReviewSending}: ReviewState = useAppSelector((state: State) => state.reviewReducer);
+  const {detailedOffer}: OfferState = useAppSelector((state: State) => state.offerReducer);
+  const [formData, setFormData]: [Feedback, Dispatch<SetStateAction<Feedback>>] = useState({rating: 0, comment: ''});
   const isAllowedSubmit: boolean = formData.rating > 0 && formData.comment.length > CommentRestriction.MinLength && formData.comment.length < CommentRestriction.MaxLength;
 
   const handleFormSubmit = (event: SyntheticEvent): void => {

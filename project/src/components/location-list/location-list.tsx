@@ -2,12 +2,12 @@ import React, {SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {updateCity} from '../../store/action';
 import {CityName} from '../../const/const';
-import {State} from '../../types/types';
+import {CityState, State} from '../../types/state';
 
 const LOCATION_LIST: CityName[] = [CityName.Paris, CityName.Cologne, CityName.Brussels, CityName.Amsterdam, CityName.Hamburg, CityName.Dusseldorf];
 
 const LocationList = (): JSX.Element => {
-  const city: CityName = useAppSelector((state: State) => state.city);
+  const {city}: CityState = useAppSelector((state: State) => state.cityReducer);
   const dispatch = useAppDispatch();
 
   const getLocationElement = (currentCity: CityName): JSX.Element => (

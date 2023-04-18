@@ -1,7 +1,8 @@
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
 import useMap from '../../hooks/use-map';
 import {Icon, Marker} from 'leaflet';
-import {Offer, Point, State} from '../../types/types';
+import {Offer, Point} from '../../types/types';
+import {MapState, OfferState, State} from '../../types/state';
 import 'leaflet/dist/leaflet.css';
 import {useAppSelector} from '../../hooks/util';
 
@@ -30,7 +31,8 @@ const getMapPoints = (offers: Offer[]): Point[] =>
   }));
 
 const Map = ({type}: MapProps): JSX.Element => {
-  const {mapOffers, activeOffer}: State = useAppSelector((state: State) => state);
+  const {activeOffer}: OfferState = useAppSelector((state: State) => state.offerReducer);
+  const {mapOffers}: MapState = useAppSelector((state: State) => state.mapReducer);
   const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mapOffers));
   const mapRef = useRef(null);
   const map = useMap(mapRef);

@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch} from '../types/state';
+import {AppDispatch, State} from '../types/state';
 import {AxiosInstance} from 'axios';
 import {
   loadComments,
@@ -11,17 +11,19 @@ import {
   setOffersLoadingStatus,
   setCommentLoadingStatus
 } from './action';
-import {AuthData, Comment, Offer, Review, State, UserData} from '../types/types';
+import {AuthData, Review, Offer, Feedback, UserData} from '../types/types';
 import {ADD_COMMENT_ERROR, APIRoute, AppRoute} from '../const/const';
 import {saveToken} from '../services/token';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+type ThunkOptions = {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
-}>(
+}
+
+export const fetchOffersAction = createAsyncThunk<void, undefined, ThunkOptions>(
   'data/fetchOffers',
   async (_arg, {dispatch , extra: api}): Promise<void> => {
     dispatch(setOffersLoadingStatus(true));
@@ -31,11 +33,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   }
 );
 
-export const fetchOfferAction = createAsyncThunk<void, { id: string }, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const fetchOfferAction = createAsyncThunk<void, { id: string }, ThunkOptions>(
   'data/fetchOffer',
   async (_arg: {id: string}, {dispatch , extra: api}): Promise<void> => {
     const {data} = await api.get<Offer>(generatePath(APIRoute.Offer, {id: _arg.id}));
@@ -43,11 +41,7 @@ export const fetchOfferAction = createAsyncThunk<void, { id: string }, {
   }
 );
 
-export const fetchNearbyOffersAction = createAsyncThunk<void, { id: string }, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const fetchNearbyOffersAction = createAsyncThunk<void, { id: string }, ThunkOptions>(
   'data/fetchNearbyOffers',
   async (_arg: {id: string}, {dispatch , extra: api}): Promise<void> => {
     const {data} = await api.get<Offer[]>(generatePath(APIRoute.Nearby, {id: _arg.id}));
@@ -55,23 +49,15 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, { id: string }, {
   }
 );
 
-export const fetchCommentsAction = createAsyncThunk<void, { id: string }, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const fetchCommentsAction = createAsyncThunk<void, { id: string }, ThunkOptions>(
   'data/fetchComments',
   async (_arg: {id: string}, {dispatch , extra: api}): Promise<void> => {
-    const {data} = await api.get<Comment[]>(generatePath(APIRoute.Comments, {id: _arg.id}));
+    const {data} = await api.get<Review[]>(generatePath(APIRoute.Comments, {id: _arg.id}));
     dispatch(loadComments(data));
   }
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const checkAuthAction = createAsyncThunk<void, undefined, ThunkOptions>(
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}): Promise<void> => {
     try {
@@ -83,11 +69,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const loginAction = createAsyncThunk<void, AuthData, ThunkOptions>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}): Promise<void> => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
@@ -97,16 +79,12 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   },
 );
 
-export const addComment = createAsyncThunk<boolean, {review: Review; id: string}, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
+export const addComment = createAsyncThunk<boolean, {review: Feedback; id: string}, ThunkOptions>(
   'data/postComment',
-  async (_arg: {review: Review; id: string}, {dispatch , extra: api}): Promise<boolean> => {
+  async (_arg: {review: Feedback; id: string}, {dispatch , extra: api}): Promise<boolean> => {
     dispatch(setCommentLoadingStatus(true));
     try {
-      const {data} = await api.post<Comment[]>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
+      const {data} = await api.post<Review[]>(generatePath(APIRoute.Comments, {id: _arg.id}), _arg.review);
       dispatch(loadComments(data));
       return true;
     } catch (err) {

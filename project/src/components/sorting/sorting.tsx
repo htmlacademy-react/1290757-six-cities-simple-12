@@ -2,13 +2,13 @@ import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {SortingType} from '../../const/const';
 import {setSorting} from '../../store/action';
-import {State} from '../../types/types';
+import {OfferState, State} from '../../types/state';
 
 const SORTING_TYPES: SortingType[] = [SortingType.Popular, SortingType.LowToHigh, SortingType.HighToLow, SortingType.TopRates];
 
 const Sorting = (): JSX.Element => {
   const [selectorState, setSelectorState]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(false);
-  const {sortingType}: State = useAppSelector((state: State) => state);
+  const {sortingType}: OfferState = useAppSelector((state: State) => state.offerReducer);
   const dispatch = useAppDispatch();
 
   const handleElementClick = (currentSortingType: SortingType): void => {

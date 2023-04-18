@@ -1,5 +1,3 @@
-import {CityName, SortingType} from '../const/const';
-
 export type Offer = {
   city: City;
   previewImage: string;
@@ -43,7 +41,7 @@ export type Point = {
   zoom: number;
 }
 
-export type Comment = {
+export type Review = {
   id: number;
   user: User;
   rating: number;
@@ -74,7 +72,7 @@ export type Coords = {
   longitude: number;
 }
 
-export type Review = {
+export type Feedback = {
   comment: string;
   rating: number;
 }
@@ -90,18 +88,3 @@ export type Place = {
   latitude: number;
   longitude: number;
 }
-
-export type State = {
-  city: CityName;
-  offers: Offer[];
-  sortingType: SortingType;
-  isOffersLoading: boolean;
-  isUserAuth: boolean;
-  mapOffers: Offer[];
-  mapCity: City;
-  activeOffer: Coords | null;
-  detailedOffer: Offer | null;
-  nearbyOffers: Offer[];
-  comments: Comment[];
-  isReviewSending: boolean;
-};

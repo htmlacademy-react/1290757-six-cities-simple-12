@@ -3,7 +3,7 @@ import {Link, useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {requireAuthorization} from '../../store/action';
-import {State} from '../../types/types';
+import {AuthState, State} from '../../types/state';
 import {dropToken} from '../../services/token';
 
 type HeaderProps = {
@@ -11,7 +11,7 @@ type HeaderProps = {
 }
 
 const Header = ({isMain}: HeaderProps): JSX.Element => {
-  const {isUserAuth}: State = useAppSelector((state: State) => state);
+  const {isUserAuth}: AuthState = useAppSelector((state: State) => state.authReducer);
   const location = useLocation();
   const isLoginPage: boolean = location.pathname === AppRoute.Login;
   const dispatch = useAppDispatch();

@@ -1,13 +1,14 @@
 import Header from '../../components/header/header';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
-import CommentsList from '../../components/comments-list/comments-list';
+import CommentsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import React, {useEffect} from 'react';
 import {getPlacesFromOffers} from '../../util/util';
 import PlaceList from '../../components/place-list/place-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import {fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction} from '../../store/api-action';
-import {Coords, Offer, State} from '../../types/types';
+import {Coords, Offer} from '../../types/types';
+import {AuthState, OfferState, State} from '../../types/state';
 import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
 import {useLocation} from 'react-router-dom';
 
@@ -25,7 +26,8 @@ const getPremiumMotivator = (): JSX.Element => (
 
 const Room = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const {detailedOffer, nearbyOffers, isUserAuth}: State = useAppSelector((state: State) => state);
+  const {isUserAuth}: AuthState = useAppSelector((state: State) => state.authReducer);
+  const {detailedOffer, nearbyOffers}: OfferState = useAppSelector((state: State) => state.offerReducer);
   const starRating: string = detailedOffer ? ((detailedOffer.rating / 5) * 100).toFixed() : '';
   const location = useLocation();
   const id: string = location.pathname.split('/')[2];

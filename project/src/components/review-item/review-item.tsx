@@ -1,10 +1,10 @@
-import {Comment} from '../../types/types';
+import {Review} from '../../types/types';
 
 const MONTH_LOCALE = 'en-US';
 const MONTH_FORMAT = 'long';
 
 type ReviewProperty = {
-  comment: Comment;
+  comment: Review;
 }
 
 type FormattedDate = {
@@ -33,7 +33,7 @@ const getFormattedDate = (commentDate: string): FormattedDate => {
   };
 };
 
-const CommentItem = ({comment}: ReviewProperty): JSX.Element => {
+const ReviewItem = ({comment}: ReviewProperty): JSX.Element => {
   const starRating: string = ((comment.rating / 5) * 100).toFixed();
   const formattedDate: FormattedDate = getFormattedDate(comment.date);
 
@@ -59,4 +59,4 @@ const CommentItem = ({comment}: ReviewProperty): JSX.Element => {
   );
 };
 
-export default CommentItem;
+export default ReviewItem;

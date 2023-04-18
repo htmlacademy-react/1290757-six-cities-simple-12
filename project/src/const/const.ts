@@ -1,3 +1,5 @@
+import {City} from '../types/types';
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -29,4 +31,13 @@ export enum CityName {
   Dusseldorf = 'Dusseldorf'
 }
 
-export const ADD_COMMENT_ERROR = 'Error, can\'t save review, please, try again';
+export const ADD_COMMENT_ERROR = 'Error, can\'t save review-item, please, try again';
+
+export const DEFAULT_CITY: City = {
+  name: '',
+  location: {
+    'latitude': 0,
+    'longitude': 0,
+    'zoom': 0
+  }
+};
