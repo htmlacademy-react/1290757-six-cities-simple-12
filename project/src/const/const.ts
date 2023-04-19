@@ -31,7 +31,12 @@ export enum CityName {
   Dusseldorf = 'Dusseldorf'
 }
 
-export const ADD_COMMENT_ERROR = 'Error, can\'t save review-item, please, try again';
+export enum ErrorMessage {
+  AddComment = 'Error, can\'t save review-item, please, try again',
+  InvalidPassword = 'Пароль должен содержать минимум одну букву и цифру'
+}
+
+export const LOCATION_LIST: CityName[] = [CityName.Paris, CityName.Cologne, CityName.Brussels, CityName.Amsterdam, CityName.Hamburg, CityName.Dusseldorf];
 
 export const DEFAULT_CITY: City = {
   name: '',
@@ -41,3 +46,5 @@ export const DEFAULT_CITY: City = {
     'zoom': 0
   }
 };
+
+export const PASSWORD_REGEX = /(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]{2,}/;

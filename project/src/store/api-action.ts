@@ -12,7 +12,7 @@ import {
   setCommentLoadingStatus
 } from './action';
 import {AuthData, Review, Offer, Feedback, UserData} from '../types/types';
-import {ADD_COMMENT_ERROR, APIRoute, AppRoute} from '../const/const';
+import {APIRoute, AppRoute, ErrorMessage} from '../const/const';
 import {saveToken} from '../services/token';
 import {generatePath} from 'react-router-dom';
 import {toast} from 'react-toastify';
@@ -88,7 +88,7 @@ export const addComment = createAsyncThunk<boolean, {review: Feedback; id: strin
       dispatch(loadComments(data));
       return true;
     } catch (err) {
-      toast.error(ADD_COMMENT_ERROR);
+      toast.error(ErrorMessage.AddComment);
       return false;
     } finally {
       dispatch(setCommentLoadingStatus(false));
