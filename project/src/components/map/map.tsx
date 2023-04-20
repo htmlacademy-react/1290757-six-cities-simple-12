@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
 import useMap from '../../hooks/use-map';
-import {Icon, Marker} from 'leaflet';
+import {Icon, LayerGroup, Marker} from 'leaflet';
 import {Offer, Point} from '../../types/types';
 import {MapState, OfferState, State} from '../../types/state';
 import 'leaflet/dist/leaflet.css';
@@ -36,6 +36,7 @@ const Map = ({type}: MapProps): JSX.Element => {
   const [locations, setLocations]: [Point[], Dispatch<SetStateAction<Point[]>>] = useState(getMapPoints(mapOffers));
   const mapRef = useRef(null);
   const map = useMap(mapRef);
+  const layer = new LayerGroup();
 
   useEffect(() => {
     setLocations(getMapPoints(mapOffers));
@@ -54,10 +55,17 @@ const Map = ({type}: MapProps): JSX.Element => {
             point.lat === activeOffer?.latitude && point.lng === activeOffer.longitude
               ? currentCustomIcon
               : defaultCustomIcon
-          )
-          .addTo(map);
+          );
+
+        layer.addLayer(marker);
       });
+
+      layer.addTo(map);
     }
+
+    return (): void => {
+      layer.clearLayers();
+    };
   }, [map, locations, activeOffer]);
 
   return <section className={`${type}__map map`} ref={mapRef}></section>;
