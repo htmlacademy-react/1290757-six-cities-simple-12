@@ -31,9 +31,14 @@ export enum CityName {
   Dusseldorf = 'Dusseldorf'
 }
 
+export enum PlacesType {
+  Near = 'near-places',
+  Cities = 'cities'
+}
+
 export enum ErrorMessage {
   AddComment = 'Error, can\'t save review-item, please, try again',
-  InvalidPassword = 'Пароль должен содержать минимум одну букву и цифру'
+  InvalidPassword = 'Password must contain at least one letter and number'
 }
 
 export const LOCATION_LIST: CityName[] = [CityName.Paris, CityName.Cologne, CityName.Brussels, CityName.Amsterdam, CityName.Hamburg, CityName.Dusseldorf];

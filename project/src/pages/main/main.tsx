@@ -8,7 +8,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import Sorting from '../../components/sorting/sorting';
 import {Offer} from '../../types/types';
 import {CityState, MapState, OfferState, State} from '../../types/state';
-import {CityName, SortingType} from '../../const/const';
+import {CityName, PlacesType, SortingType} from '../../const/const';
 import {setMapCity, setMapOffers} from '../../store/action';
 
 const getSortedOffer = (offers: Offer[], sortingType: SortingType): Offer[] => {
@@ -59,7 +59,7 @@ const Main = (): JSX.Element => {
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{mapOffers.length} places to stay in {city}</b>
         <Sorting />
-        <PlaceList places={getPlacesFromOffers(mapOffers)} type='cities' />
+        <PlaceList places={getPlacesFromOffers(mapOffers)} type={PlacesType.Cities} />
       </section>
       <div className="cities__right-section">
         <Map type='cities' />
