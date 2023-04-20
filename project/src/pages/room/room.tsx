@@ -11,6 +11,7 @@ import {Coords, Offer} from '../../types/types';
 import {AuthState, OfferState, State} from '../../types/state';
 import {setActiveOffer, setMapCity, setMapOffers} from '../../store/action';
 import {useLocation} from 'react-router-dom';
+import {PlacesType} from '../../const/const';
 
 const getUserStatus = (): JSX.Element => (
   <span className="property__user-status">
@@ -149,7 +150,7 @@ const Room = (): JSX.Element => {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <PlaceList places={getPlacesFromOffers(nearbyOffers)} type="near-places" />
+            <PlaceList places={getPlacesFromOffers(nearbyOffers)} type={PlacesType.Near} />
           </section>
         </div>
       </main>

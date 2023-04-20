@@ -1,17 +1,18 @@
 import {generatePath, Link} from 'react-router-dom';
-import {AppRoute} from '../../const/const';
+import {AppRoute, PlacesType} from '../../const/const';
 import {setActiveOffer} from '../../store/action';
 import {useAppDispatch} from '../../hooks/util';
 import {Coords, Place} from '../../types/types';
 
 type PlaceCardProperty = {
   place: Place;
-  type: string;
+  type: PlacesType;
 }
 
 const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
   const dispatch = useAppDispatch();
   const coords: Coords = {latitude: place.latitude, longitude: place.longitude};
+  const isTypeCities: boolean = type === PlacesType.Cities;
 
   const GetMotivator = (): JSX.Element => (
     <div className="place-card__mark">
@@ -19,13 +20,25 @@ const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
     </div>
   );
 
+  const handleCardMouseOver = (): void => {
+    if (isTypeCities) {
+      dispatch(setActiveOffer(coords));
+    }
+  };
+
+  const handleCardMouseLeave = (): void => {
+    if (isTypeCities) {
+      dispatch(setActiveOffer(null));
+    }
+  };
+
   return (
-    <article className={`${type}__card place-card`} onMouseOver={() => dispatch(setActiveOffer(coords))} onMouseLeave={() => dispatch(setActiveOffer(null))}>
+    <article className={`${type}__card place-card`} onMouseOver={handleCardMouseOver} onMouseLeave={handleCardMouseLeave}>
       {place.isPremium ? GetMotivator() : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <span>
           <img className="place-card__image" src={place.previewImage} width="260" height="200" alt="Place"/>
-        </a>
+        </span>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -42,7 +55,7 @@ const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={generatePath(AppRoute.Offer, {id: place.id.toString()})}>{place.title}</Link>
+          {isTypeCities ? <Link to={generatePath(AppRoute.Offer, {id: place.id.toString()})}>{place.title}</Link> : <span>{place.title}</span>}
         </h2>
         <p className="place-card__type">{place.type}</p>
       </div>

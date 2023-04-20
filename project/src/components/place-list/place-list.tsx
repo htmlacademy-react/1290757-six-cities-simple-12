@@ -1,10 +1,11 @@
 import PlaceCard from '../place-card/place-card';
 import React from 'react';
 import {Place} from '../../types/types';
+import {PlacesType} from '../../const/const';
 
 type PlaceListProperty = {
   places: Place[];
-  type: string;
+  type: PlacesType;
 }
 
 const PlaceList = ({places, type}: PlaceListProperty): JSX.Element => (

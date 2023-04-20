@@ -31,6 +31,11 @@ export enum CityName {
   Dusseldorf = 'Dusseldorf'
 }
 
+export enum PlacesType {
+  Near = 'near-places',
+  Cities = 'cities'
+}
+
 export enum ErrorMessage {
   AddComment = 'Error, can\'t save review-item, please, try again',
   InvalidPassword = 'Пароль должен содержать минимум одну букву и цифру'
