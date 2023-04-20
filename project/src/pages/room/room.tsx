@@ -40,7 +40,7 @@ const Room = (): JSX.Element => {
   };
 
   useEffect( (): void => {
-    if(id) {
+    if (id) {
       getPageData();
     }
   }, [id]);

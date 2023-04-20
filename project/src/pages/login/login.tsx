@@ -1,13 +1,22 @@
 import Header from '../../components/header/header';
 import {AppRoute, CityName, LOCATION_LIST} from '../../const/const';
 import {Link} from 'react-router-dom';
-import {updateCity} from '../../store/action';
-import {useAppDispatch} from '../../hooks/util';
+import {redirectToRoute, updateCity} from '../../store/action';
+import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import LoginForm from '../../components/login-form/login-form';
+import {useEffect} from 'react';
+import {AuthState, State} from '../../types/state';
 
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const randCity: CityName = LOCATION_LIST[Math.floor(Math.random() * LOCATION_LIST.length)];
+  const {isUserAuth}: AuthState = useAppSelector((state: State) => state.authReducer);
+
+  useEffect( (): void => {
+    if (isUserAuth) {
+      dispatch(redirectToRoute(AppRoute.Main));
+    }
+  }, []);
 
   return (
     <div className="page page--gray page--login">

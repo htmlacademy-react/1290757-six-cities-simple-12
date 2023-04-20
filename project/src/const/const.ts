@@ -38,7 +38,7 @@ export enum PlacesType {
 
 export enum ErrorMessage {
   AddComment = 'Error, can\'t save review-item, please, try again',
-  InvalidPassword = 'Пароль должен содержать минимум одну букву и цифру'
+  InvalidPassword = 'Password must contain at least one letter and number'
 }
 
 export const LOCATION_LIST: CityName[] = [CityName.Paris, CityName.Cologne, CityName.Brussels, CityName.Amsterdam, CityName.Hamburg, CityName.Dusseldorf];
