@@ -6,7 +6,8 @@ import {getPlacesFromOffers} from '../../util/util';
 import LocationList from '../../components/location-list/location-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/util';
 import Sorting from '../../components/sorting/sorting';
-import {Offer, State} from '../../types/types';
+import {Offer} from '../../types/types';
+import {CityState, MapState, OfferState, State} from '../../types/state';
 import {CityName, SortingType} from '../../const/const';
 import {setMapCity, setMapOffers} from '../../store/action';
 
@@ -28,7 +29,9 @@ const getOffersByCity = (offers: Offer[], city: CityName): Offer[] =>
 
 const Main = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const {city, offers, sortingType, mapOffers}: State = useAppSelector((state: State) => state);
+  const {city}: CityState = useAppSelector((state: State) => state.cityReducer);
+  const {mapOffers}: MapState = useAppSelector((state: State) => state.mapReducer);
+  const {offers, sortingType}: OfferState = useAppSelector((state: State) => state.offerReducer);
 
   useEffect(() => {
     const cityOffers: Offer[] = getOffersByCity([...offers], city);

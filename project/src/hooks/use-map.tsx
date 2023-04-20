@@ -1,7 +1,7 @@
 import {useEffect, useState, MutableRefObject, useRef} from 'react';
 import {Map, TileLayer} from 'leaflet';
 import {useAppSelector} from './util';
-import {State} from '../types/types';
+import {MapState, State} from '../types/state';
 
 const URL_TEMPLATE = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
@@ -9,7 +9,7 @@ const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">Op
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>
 ): Map | null {
-  const {mapCity}: State = useAppSelector((state: State) => state);
+  const {mapCity}: MapState = useAppSelector((state: State) => state.mapReducer);
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef(false);
 
