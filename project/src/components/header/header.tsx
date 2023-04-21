@@ -11,14 +11,14 @@ type HeaderProps = {
 }
 
 const Header = ({isMain}: HeaderProps): JSX.Element => {
-  const {isUserAuth}: AuthState = useAppSelector((state: State) => state.authReducer);
+  const {email}: AuthState = useAppSelector((state: State) => state.authReducer);
   const location = useLocation();
   const isLoginPage: boolean = location.pathname === AppRoute.Login;
   const dispatch = useAppDispatch();
 
   const handleSingOutClick = () => {
     dropToken();
-    dispatch(requireAuthorization(false));
+    dispatch(requireAuthorization(''));
   };
 
   const getNotAuthElement = (): JSX.Element => (
@@ -42,7 +42,7 @@ const Header = ({isMain}: HeaderProps): JSX.Element => {
         <li className="header__nav-item user">
           <div className="header__nav-profile">
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+            <span className="header__user-name user__name">{email}</span>
           </div>
         </li>
         <li className="header__nav-item">
@@ -69,7 +69,7 @@ const Header = ({isMain}: HeaderProps): JSX.Element => {
               </span>
             </Link>
           </div>
-          {!isLoginPage ? getUserControls(isUserAuth) : ''}
+          {!isLoginPage ? getUserControls(!!email.length) : ''}
         </div>
       </div>
     </header>

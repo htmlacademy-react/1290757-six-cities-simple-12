@@ -55,7 +55,7 @@ const PlaceCard = ({place, type}: PlaceCardProperty): JSX.Element => {
           </div>
         </div>
         <h2 className="place-card__name">
-          {isTypeCities ? <Link to={generatePath(AppRoute.Offer, {id: place.id.toString()})}>{place.title}</Link> : <span>{place.title}</span>}
+          <Link to={generatePath(AppRoute.Offer, {id: place.id.toString()})}>{place.title}</Link>
         </h2>
         <p className="place-card__type">{place.type}</p>
       </div>

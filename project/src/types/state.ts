@@ -11,7 +11,7 @@ export type CityState = {
 }
 
 export type AuthState = {
-  isUserAuth: boolean;
+  email: string;
 }
 
 export type ReviewState = {

@@ -27,7 +27,7 @@ const getPremiumMotivator = (): JSX.Element => (
 
 const Room = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const {isUserAuth}: AuthState = useAppSelector((state: State) => state.authReducer);
+  const {email}: AuthState = useAppSelector((state: State) => state.authReducer);
   const {detailedOffer, nearbyOffers}: OfferState = useAppSelector((state: State) => state.offerReducer);
   const starRating: string = detailedOffer ? ((detailedOffer.rating / 5) * 100).toFixed() : '';
   const location = useLocation();
@@ -141,7 +141,7 @@ const Room = (): JSX.Element => {
               </div>
               <section className="property__reviews reviews">
                 <CommentsList />
-                {isUserAuth ? <ReviewsForm /> : ''}
+                {email.length ? <ReviewsForm /> : ''}
               </section>
             </div>
           </div>
