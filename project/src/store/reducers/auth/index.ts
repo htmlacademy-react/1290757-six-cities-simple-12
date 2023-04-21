@@ -4,12 +4,12 @@ import {ActionReducerMapBuilder, createReducer, PayloadAction} from '@reduxjs/to
 import {requireAuthorization} from '../../action';
 
 const initialState: AuthState = {
-  isUserAuth: false
+  email: ''
 };
 
 export const authReducer: ReducerWithInitialState<AuthState> = createReducer(initialState, (builder: ActionReducerMapBuilder<AuthState>): void => {
   builder
-    .addCase(requireAuthorization, (state: AuthState, action: PayloadAction<boolean>): void => {
-      state.isUserAuth = action.payload;
+    .addCase(requireAuthorization, (state: AuthState, action: PayloadAction<string>): void => {
+      state.email = action.payload;
     });
 });

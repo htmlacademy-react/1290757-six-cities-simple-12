@@ -10,10 +10,10 @@ import {AuthState, State} from '../../types/state';
 const Login = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const randCity: CityName = LOCATION_LIST[Math.floor(Math.random() * LOCATION_LIST.length)];
-  const {isUserAuth}: AuthState = useAppSelector((state: State) => state.authReducer);
+  const {email}: AuthState = useAppSelector((state: State) => state.authReducer);
 
   useEffect( (): void => {
-    if (isUserAuth) {
+    if (email.length) {
       dispatch(redirectToRoute(AppRoute.Main));
     }
   }, []);
